@@ -1,5 +1,4 @@
-# Team1Twitter
-Team 1's Take on Twitter
+# Chirpr
 
 | Name | GitHub Username | Role
 | --- | --- | --- |
