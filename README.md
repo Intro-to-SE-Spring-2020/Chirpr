@@ -1,4 +1,4 @@
-# Chirper
+# Chirpr
 
 | Name | GitHub Username | Role
 | --- | --- | --- |
