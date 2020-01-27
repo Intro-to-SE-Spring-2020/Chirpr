@@ -10,4 +10,5 @@
 
 
 [Languages and techniques](https://github.com/Intro-to-SE-Spring-2020/Chirpr/wiki/MERN-Stack)
+
 [Description / Objective](https://github.com/Intro-to-SE-Spring-2020/Chirpr/wiki)
