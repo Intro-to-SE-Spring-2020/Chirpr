@@ -16,8 +16,10 @@ assignees: ''
  The code is unit tested and passes all the existing tests
  User must be able to log in and land on their homepage
 
-### REMINDERS (DELETE THESE BEFORE POSTING ISSUE)
+
+## (DELETE THIS AND BELOW BEFORE POSTING)
+### REMINDERS
 - Add a priority label and other appropriate labels. 
 - Add the Chirpr project tag under Projects
 - Add the appropriate sprint tag for the milestone. 
-### (DELETE THESE BEFORE POSTING ISSUE)
+
