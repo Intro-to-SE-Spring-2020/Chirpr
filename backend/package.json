@@ -4,6 +4,7 @@
   "description": "Express REST API",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "test"
   },
   "repository": {
