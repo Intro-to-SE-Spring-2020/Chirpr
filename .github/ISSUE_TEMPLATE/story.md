@@ -11,7 +11,7 @@ assignees: ''
 - These can be tasks that need to be done, notes about implementation, etc. 
 
 ### Acceptance Criteria:
-- The code is tested and passes all new and existing tests.
+- 
 
 ### Story Points
 Story Points: 
