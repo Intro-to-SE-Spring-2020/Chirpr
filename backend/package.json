@@ -4,6 +4,7 @@
   "description": "Express REST API",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "test"
   },
   "repository": {
@@ -20,5 +21,18 @@
     "JavaScript"
   ],
   "author": "Justin Smith, Pranay Marella, Keith Wilcox, Dylan Barbette",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@sendgrid/mail": "^6.5.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "express-validator": "^6.4.0",
+    "google-auth-library": "^5.9.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.11",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.2"
+  }
 }
