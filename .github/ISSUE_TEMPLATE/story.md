@@ -13,6 +13,8 @@ assignees: ''
 ### Acceptance Criteria:
 - The code is tested and passes all new and existing tests.
 
+### Story Points
+Story Points: 
 
 ## (DELETE THIS AND BELOW BEFORE POSTING)
 ### REMINDERS
