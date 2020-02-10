@@ -11,7 +11,7 @@ class Landing extends Component {
         return (
             <Container fluid>
                 <Row>
-                    <Col>1 of 1git</Col>
+                    <Col>1 of 1</Col>
                 </Row>
             </Container>
         )
