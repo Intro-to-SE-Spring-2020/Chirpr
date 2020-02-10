@@ -5,8 +5,6 @@ import './App.css';
 
 // import pages
 import Landing from './pages/Landing/Landing';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
-import Contact from './pages/Contact/Contact';
 
 function App() {
   return (
