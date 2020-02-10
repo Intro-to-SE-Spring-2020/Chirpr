@@ -5,14 +5,19 @@ import './App.css';
 
 // import pages
 import Landing from './pages/Landing/Landing';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
+import Contact from './pages/Contact/Contact';
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div data-testid="app" className="App">
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
           <Route exact path='/' component={Landing}/>
+          <Route path='/contact' component={Contact}/>
+          
+          <Route path='*' component={ErrorPage}/>
         </Switch>
       </div>
     </Router>
