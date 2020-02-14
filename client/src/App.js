@@ -10,6 +10,7 @@ import Navbar from './components/Navbar/Navbar';
 import Landing from './pages/Landing/Landing';
 import Contact from './pages/Contact/Contact';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import AuthPage from './pages/AuthPage/AuthPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           {/* put exact so that the component is only rendered when http://localhost/ */}
           <Route exact path='/' component={Landing}/>
           <Route path='/contact' component={Contact}/>
+          <Route path="/AuthPage" exact component={AuthPage}/>
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage}/>
         </Switch>
