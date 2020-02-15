@@ -6,4 +6,4 @@ const { signup } = require('../controllers/auth');
 
 router.get('/signup', signup);
 
-module.exports = router;
+module.exports = router; // {}
