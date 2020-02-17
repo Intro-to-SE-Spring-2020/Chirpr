@@ -13,9 +13,9 @@ const Navigation = () => {
             <Navbar bg="dark" variant="dark">
             <Navbar.Brand href="#home">Navbar</Navbar.Brand>
             <Nav className="mr-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Link to="/contact">Contact</Link>
-                <Nav.Link href="#pricing">Pricing</Nav.Link>
+                <Link className="nav-link" to="/">Home</Link>
+                <Link className="nav-link" to="/contact">Contact</Link>
+                <Link className="nav-link" to="/profile">My Profile</Link>
             </Nav>
             </Navbar>
         </>
