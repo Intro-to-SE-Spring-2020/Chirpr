@@ -37,7 +37,7 @@ if ((process.env.NODE_ENV == 'development')) {
 // router middleware
 app.use('/api', authRouter);
 
-const PORT = process.env.port || 8000; // .env file port # or 8000
+const PORT = process.env.PORT || 8000; // .env file port # or 8000
 // start server/listen on port
 app.listen(PORT, () => {
     // callback function on success
