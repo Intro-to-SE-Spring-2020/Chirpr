@@ -24,6 +24,7 @@ mongoose.connection.on('error', err => {
 
 // import routes
 const authRouter = require('./routes/auth');
+const profileRouter = require('./routes/profile');
 
 // middleware
 // morgan for better development experience
@@ -36,6 +37,7 @@ if ((process.env.NODE_ENV == 'development')) {
 
 // router middleware
 app.use('/api', authRouter);
+app.use('/api', profileRouter);
 
 const PORT = process.env.PORT || 8000; // .env file port # or 8000
 // start server/listen on port
