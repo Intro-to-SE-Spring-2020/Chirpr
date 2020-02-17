@@ -10,6 +10,7 @@ import Navigation from './components/Navigation/Navigation';
 import Landing from './pages/Landing/Landing';
 import Contact from './pages/Contact/Contact';
 import Profile from './pages/Profile/Profile.js';
+import Login from './pages/Login/Login.js';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route exact path='/' component={Landing}/>
           <Route path='/contact' component={Contact}/>
           <Route path='/profile' component={Profile}/>
+          <Route path='/login' component={Login}/>
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage}/>
         </Switch>
