@@ -15,7 +15,7 @@ exports.auth = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        req.user = decoded.user; // decoded.user is from our payload that
+        req.user = decoded.user.id; // decoded.user is from our payload that
         // we sign with in controller/auth.js -> sigin
         next();
     } catch (err) {
