@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-exports.authMiddleware = (req, res, next) => {
+exports.auth = (req, res, next) => {
     // get token from header
     const token = req.header('x-auth-token'); 
 
