@@ -11,6 +11,7 @@ import Landing from './pages/Landing/Landing';
 import Contact from './pages/Contact/Contact';
 import Profile from './pages/Profile/Profile.js';
 import Login from './pages/Login/Login.js';
+import Register from './pages/Register/Register.js';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
           <Route path='/contact' component={Contact}/>
           <Route path='/profile' component={Profile}/>
           <Route path='/login' component={Login}/>
+          <Route path='/register' component={Register}/>
+
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage}/>
         </Switch>
