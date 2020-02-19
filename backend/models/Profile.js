@@ -10,12 +10,17 @@ const userProfileSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        lowercase: true,
         unique: true,
         max: 32
     },
     bio: {
         type: String,
         max: 120
+    },
+    dob: {
+        type: String,
+        required: true
     },
     following: [
         {
@@ -33,6 +38,6 @@ const userProfileSchema = new mongoose.Schema({
             }
         }
     ]
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model('Profile', userProfileSchema);
