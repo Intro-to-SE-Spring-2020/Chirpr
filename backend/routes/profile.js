@@ -16,10 +16,10 @@ const { auth } = require('../middleware/auth');
 // @access  Private
 router.get('/user/profile/:username', auth, getProfile);
 
-// @route   POST api/user/profile/:id
+// @route   POST api/user/profile/createOrUpdate
 // @desc    Create or Update current user profile
 // @access  Private
-router.post('/user/profile',
+router.post('/user/profile/createOrUpdate',
     userProfileValidator,
     runValidation,
     auth,

@@ -39,8 +39,7 @@ exports.createOrUpdateProfile = async (req, res) => {
         }
 
         // create user profiles b/c it doesn't exist
-        profile = new Profile({ user: req.user, username, bio })
-            .select('-_id');
+        profile = new Profile({ user: req.user, username, bio });
 
         await profile.save((err, success) => {
             if (err) {
@@ -49,7 +48,7 @@ exports.createOrUpdateProfile = async (req, res) => {
                     errors: [{ msg: err }]
                 });
             }
-            res.json(profile);
+            res.json(profile.populate('user username bio following followers'));
         });
 
     } catch (err) {
