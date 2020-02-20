@@ -3,18 +3,6 @@ const crypto = require('crypto'); // This comes packed with node.js
 
 // user schema
 const userSchema = new mongoose.Schema({
-    first_name: {
-        type: String,
-        trim: true,
-        required: true,
-        max: 32
-    },
-    last_name: {
-        type: String,
-        trim: true,
-        required: true,
-        max: 32
-    },
     email: {
         type: String,
         trim: true,
