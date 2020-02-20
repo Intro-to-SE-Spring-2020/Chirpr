@@ -22,7 +22,7 @@ exports.getProfile = async (req, res) => {
 };
 
 exports.createOrUpdateProfile = async (req, res) => {
-    const { username, bio, dob } = req.body;
+    const { first_name, last_name, username, bio, dob } = req.body;
 
     try {
         let profile = await Profile.findOne({ user: req.user });
@@ -31,15 +31,14 @@ exports.createOrUpdateProfile = async (req, res) => {
             // update since user has profile
             profile = await Profile.findOneAndUpdate(
                 { user: req.user },
-                { username, bio, dob },
+                { first_name, last_name, username, bio, dob },
                 { new: true }
-            )
-                .select('-_id');
+            );
             return res.json(profile);
         }
 
         // create user profiles b/c it doesn't exist
-        profile = new Profile({ user: req.user, username, bio, dob });
+        profile = new Profile({ user: req.user, first_name, last_name, username, bio, dob });
 
         await profile.save((err, success) => {
             if (err) {
@@ -48,7 +47,7 @@ exports.createOrUpdateProfile = async (req, res) => {
                     errors: [{ msg: err }]
                 });
             }
-            res.json(profile.populate('user username bio dob following followers timestamps'));
+            res.json(profile);
         });
 
     } catch (err) {

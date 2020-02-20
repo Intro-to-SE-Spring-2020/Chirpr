@@ -5,7 +5,7 @@ const User = require('../models/User');
 
 exports.signup = async (req, res) => {
     // 1: destruct name, email, password
-    const { first_name, last_name, email, password } = req.body;
+    const { email, password } = req.body;
 
     try {
         // 2: check to see if email is in use
@@ -18,7 +18,7 @@ exports.signup = async (req, res) => {
         }
 
         // 3: create new user
-        let newUser = new User({ first_name, last_name, email, password });
+        let newUser = new User({ email, password });
 
         // 4: save user to DB
         newUser.save((err, success) => {

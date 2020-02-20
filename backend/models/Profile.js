@@ -6,6 +6,18 @@ const userProfileSchema = new mongoose.Schema({
         required: true,
         ref: 'user'
     },
+    first_name: {
+        type: String,
+        trim: true,
+        required: true,
+        max: 32
+    },
+    last_name: {
+        type: String,
+        trim: true,
+        required: true,
+        max: 32
+    },
     username: {
         type: String,
         required: true,
