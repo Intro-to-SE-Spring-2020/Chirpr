@@ -8,10 +8,17 @@ import Navigation from './components/Navigation/Navigation';
 
 // import pages
 import Landing from './pages/Landing/Landing';
-import Profile from './pages/Profile/Profile.js';
-import Login from './pages/Login/Login.js';
-import Register from './pages/Register/Register.js';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import AuthPage from './pages/AuthPage/AuthPage';
+
+//Font Awesome (May be used for design later)
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+//import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+//import { library } from '@fortawesome/fontawesome-svg-core'
+
+//Global list so we don't have to import each icon in each react component
+//library.add(faSpinner)
+
 
 function App() {
   return (
@@ -21,10 +28,7 @@ function App() {
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
           <Route exact path='/' component={Landing}/>
-          <Route path='/profile' component={Profile}/>
-          <Route path='/login' component={Login}/>
-          <Route path='/register' component={Register}/>
-
+          <Route path="/AuthPage" exact component={AuthPage}/>
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage}/>
         </Switch>
