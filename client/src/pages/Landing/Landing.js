@@ -8,10 +8,10 @@ function App() {
       <header className="App-header">
         <HomepageImage />
         <p>
-          Welcome to Chirpr
+          Welcome to Chirpr!
         </p>
         <p>
-          Join the Chirpr community community and chirp away!
+          Join the Chirpr community and chirp away!
         </p>
       </header>
     </div>
