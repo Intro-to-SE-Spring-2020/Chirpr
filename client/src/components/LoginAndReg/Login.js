@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import {FormGroup, FormControl, FormLabel} from 'react-bootstrap'
+import {FormGroup, FormControl, FormLabel} from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
 import LoaderButton from "../Buttons/LoaderButton";
 
 const Login = (props) => {
@@ -9,7 +12,7 @@ const Login = (props) => {
 
     
     function validateForm() {
-        return email.length > 0 && password.length > 0;
+        return email.length > 0 && password.length > 5;
     }
 
     async function handleSubmit(event) {
@@ -17,15 +20,27 @@ const Login = (props) => {
       
         setIsLoading(true);
       
-        try {
-            //Auth is an AWS Cognito object.  We need to replace it with our own signin.
-          //await Auth.signIn(email, password);
-          props.userHasAuthenticated(true);
-          props.history.push("/");
-        } catch (e) {
-          alert(e.message);
-          setIsLoading(false);
-        }
+        // call api
+        axios({
+            method: 'post',
+            url: 'http://localhost:8000/api/signin',
+            data: {
+                email,
+                password
+            }
+        })
+            .then((success) => {
+                const cookies = new Cookies();
+                cookies.set('x-auth-token', success.data.token, { path: '/' });
+                // parse info here and create dummy profile info
+                props.history.push("/");
+            })
+            .catch(err => {
+                setEmail("");
+                setPassword("");
+                setIsLoading(false);
+            })
+        
       }
 
     return (
@@ -56,4 +71,4 @@ const Login = (props) => {
     )
 }
 
-export default Login
+export default withRouter(Login)
