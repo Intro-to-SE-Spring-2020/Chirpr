@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import {Button, FormGroup, FormControl, FormLabel} from 'react-bootstrap'
+import {FormGroup, FormControl, FormLabel} from 'react-bootstrap'
+import LoaderButton from "../Buttons/LoaderButton";
 
 const Login = (props) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -47,9 +48,9 @@ const Login = (props) => {
                         type="password"
                         />
                     </FormGroup>
-                    <Button block bsSize="large" disabled={!validateForm()} type="submit">
+                    <LoaderButton block type="submit"bsSize="large" isLoading={isLoading} disabled={!validateForm()}>
                         Login
-                    </Button>
+                    </LoaderButton>
                 </form>
         </div>
     )

@@ -12,6 +12,15 @@ import Contact from './pages/Contact/Contact';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage';
 
+//Font Awesome (May be used for design later)
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+//import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+//import { library } from '@fortawesome/fontawesome-svg-core'
+
+//Global list so we don't have to import each icon in each react component
+//library.add(faSpinner)
+
+
 function App() {
   return (
     <Router>
