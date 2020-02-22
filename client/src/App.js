@@ -31,7 +31,6 @@ function App() {
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
           <Route exact path='/' component={Landing}/>
-          <Route path='/contact' component={Contact}/>
           <Route path="/AuthPage" exact component={AuthPage}/>
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage}/>
