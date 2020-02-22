@@ -8,9 +8,6 @@ import Navigation from './components/Navigation/Navigation';
 
 // import pages
 import Landing from './pages/Landing/Landing';
-import Profile from './pages/Profile/Profile.js';
-import Login from './pages/Login/Login.js';
-import Register from './pages/Register/Register.js';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage';
 
