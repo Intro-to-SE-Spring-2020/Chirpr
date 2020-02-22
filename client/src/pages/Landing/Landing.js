@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Chirp from ''
 import {
     Container,
     Row,
@@ -11,7 +12,7 @@ class Landing extends Component {
         return (
             <Container fluid>
                 <Row>
-                    <Col>1 of 1</Col>
+                    <Col> </Col>
                 </Row>
             </Container>
         )
