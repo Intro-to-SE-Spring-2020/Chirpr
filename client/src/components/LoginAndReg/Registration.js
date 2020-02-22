@@ -1,43 +1,56 @@
 import React, { useState } from "react";
 import {
-  HelpBlock,
+  Form,
   FormGroup,
-  FormControl,
-  ControlLabel
+  FormControl
 } from "react-bootstrap";
-import LoaderButton from "../components/LoaderButton";
-import { useFormFields } from "../libs/hooksLib";
+import { Redirect, withRouter } from 'react-router-dom';
+import axios from 'axios';
 
-const Registration = () => {
-  const [fields, handleFieldChange] = useFormFields({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    confirmationCode: ""
-  });
-  const [newUser, setNewUser] = useState(null);
+import LoaderButton from "../../components/Buttons/LoaderButton"
+
+const Registration = (props) => {
+  const [email, setEmail] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
     return (
-      fields.email.length > 0 &&
-      fields.password.length > 0 &&
-      fields.password === fields.confirmPassword
+      email.length > 0 &&
+      password1.length > 5 &&
+      password1 === password2
     );
   }
 
   function validateConfirmationForm() {
-    return fields.confirmationCode.length > 0;
+    return password2.length > 0;
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
 
     setIsLoading(true);
 
-    setNewUser("test");
-
-    setIsLoading(false);
+    // call api
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/signup',
+      data: {
+        email,
+        password: password1
+      }
+    })
+      .then((success) => {
+        props.history.push("/login")
+      })
+      .catch(err => {
+        setEmail("");
+        setPassword1("");
+        setPassword2("");
+        setIsLoading(false);
+      })
   }
 
   async function handleConfirmationSubmit(event) {
@@ -49,16 +62,6 @@ const Registration = () => {
   function renderConfirmationForm() {
     return (
       <form onSubmit={handleConfirmationSubmit}>
-        <FormGroup controlId="confirmationCode" bsSize="large">
-          <ControlLabel>Confirmation Code</ControlLabel>
-          <FormControl
-            autoFocus
-            type="tel"
-            onChange={handleFieldChange}
-            value={fields.confirmationCode}
-          />
-          <HelpBlock>Please check your email for the code.</HelpBlock>
-        </FormGroup>
         <LoaderButton
           block
           type="submit"
@@ -76,28 +79,28 @@ const Registration = () => {
     return (
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
+          <Form.Label>Email</Form.Label>
           <FormControl
             autoFocus
             type="email"
-            value={fields.email}
-            onChange={handleFieldChange}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
+          <Form.Label>Password</Form.Label>
           <FormControl
             type="password"
-            value={fields.password}
-            onChange={handleFieldChange}
+            value={password1}
+            onChange={(event) => setPassword1(event.target.value)}
           />
         </FormGroup>
         <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password</ControlLabel>
+          <Form.Label>Confirm Password</Form.Label>
           <FormControl
             type="password"
-            onChange={handleFieldChange}
-            value={fields.confirmPassword}
+            onChange={(event) => setPassword2(event.target.value)}
+            value={password2}
           />
         </FormGroup>
         <LoaderButton
@@ -115,9 +118,9 @@ const Registration = () => {
 
   return (
     <div className="Signup">
-      {newUser === null ? renderForm() : renderConfirmationForm()}
+      {renderForm()}
     </div>
   );
 }
 
-export default Registration
+export default withRouter(Registration)
