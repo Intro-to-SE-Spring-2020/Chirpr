@@ -25,3 +25,4 @@ router.get('/chirp', auth, createChirp);
 // router.get('/chirp', auth, getChirpById);
 
 
+module.exports = router;
