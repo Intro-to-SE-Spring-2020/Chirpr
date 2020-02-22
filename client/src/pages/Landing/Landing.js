@@ -10,9 +10,9 @@ function App() {
         <p>
           Welcome to Chirpr
         </p>
-        <a>
+        <p>
           Join the Chirpr community community and chirp away!
-        </a>
+        </p>
       </header>
     </div>
   );
