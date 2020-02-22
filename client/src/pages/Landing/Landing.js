@@ -1,22 +1,21 @@
-import React, { Component } from 'react';
-import {
-    Container,
-    Row,
-    Col,
-    Alert
-} from 'react-bootstrap';
+import React from 'react';
+import '../../App.css';
+import HomepageImage from '../../components/HomepageImage.js';
 
-class Landing extends Component {
-    render () {
-        return (
-            <Container fluid>
-                <Row>
-                    <Col>1 of 1</Col>
-                </Row>
-            </Container>
-        )
-    }
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <HomepageImage />
+        <p>
+          Welcome to Chirpr
+        </p>
+        <a>
+          Join the Chirpr community community and chirp away!
+        </a>
+      </header>
+    </div>
+  );
 }
 
-
-export default Landing;
+export default App;
