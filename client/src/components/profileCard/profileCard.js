@@ -67,7 +67,7 @@ function Content() {
 function Card() {
     return(
         <div>
-            <Header user={props.user}/>
+            <Header user={user}/>
             <Content user={user}/>
         </div>
     );
