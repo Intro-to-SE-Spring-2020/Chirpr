@@ -1,13 +1,35 @@
-import React, { Component } from 'react'
+// import React, { Component } from 'react'
+// import Card from '../../components/profileCard/profileCard.js';
+// import {Container, Row, Col } from "react-bootstrap";
 
-class Profile extends Component {
-    render () {
-        return (
-            <div>
-                Profile Page!
-            </div>
-        )
-    }
-}
+// function Profile(props){
+//     const [bio, setBio] = useState("") //initial state of bio is empty
+//     function getProfileData(){
+//         axios({
+//             method: 'get'
+//             url: 'http:'
+//             data: {
 
-export default Profile
+                
+//             }
+//         })
+
+
+//     }
+//     return (
+//         <Container>
+//         <Row>
+//             <Col> </Col>
+//             <Col xs={6}>
+//                 <Card />
+//                 </Col>
+//             <Col> </Col>
+//         </Row>
+//     </Container>
+//     )
+
+// }
+
+
+// export default Profile
+

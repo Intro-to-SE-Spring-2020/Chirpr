@@ -1,10 +1,10 @@
-import React from "react";
-import { Button, Spinner } from "react-bootstrap";
-//import "./LoaderButton.css";
+import React from 'react'
+import { Button, Spinner } from 'react-bootstrap'
+// import './LoaderButton.css'
 
 const LoaderButton = ({
   isLoading,
-  className = "",
+  className = '',
   disabled = false,
   ...props
 }) => {
@@ -14,10 +14,10 @@ const LoaderButton = ({
       disabled={disabled || isLoading}
       {...props}
     >
-      {isLoading && <Spinner animation="border"/>}
+      {isLoading && <Spinner animation='border' />}
       {props.children}
     </Button>
-  );
+  )
 }
 
 export default LoaderButton

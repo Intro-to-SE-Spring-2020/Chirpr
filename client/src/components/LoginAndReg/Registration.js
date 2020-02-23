@@ -1,123 +1,101 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
-  HelpBlock,
+  Form,
   FormGroup,
-  FormControl,
-  ControlLabel
-} from "react-bootstrap";
-import LoaderButton from "../components/LoaderButton";
-import { useFormFields } from "../libs/hooksLib";
+  FormControl
+} from 'react-bootstrap'
+import { withRouter } from 'react-router-dom'
+import axios from 'axios'
 
-const Registration = () => {
-  const [fields, handleFieldChange] = useFormFields({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    confirmationCode: ""
-  });
-  const [newUser, setNewUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+import LoaderButton from '../../components/Buttons/LoaderButton'
 
-  function validateForm() {
+const Registration = (props) => {
+  const [email, setEmail] = useState('')
+  const [password1, setPassword1] = useState('')
+  const [password2, setPassword2] = useState('')
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  function validateForm () {
     return (
-      fields.email.length > 0 &&
-      fields.password.length > 0 &&
-      fields.password === fields.confirmPassword
-    );
+      email.length > 0 &&
+      password1.length > 5 &&
+      password1 === password2
+    )
   }
 
-  function validateConfirmationForm() {
-    return fields.confirmationCode.length > 0;
+  function handleSubmit (event) {
+    event.preventDefault()
+
+    setIsLoading(true)
+
+    // call api
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/signup',
+      data: {
+        email,
+        password: password1
+      }
+    })
+      .then((success) => {
+        props.history.push('/login')
+      })
+      .catch(err => {
+        console.log(err)
+        setEmail('')
+        setPassword1('')
+        setPassword2('')
+        setIsLoading(false)
+      })
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    setIsLoading(true);
-
-    setNewUser("test");
-
-    setIsLoading(false);
-  }
-
-  async function handleConfirmationSubmit(event) {
-    event.preventDefault();
-
-    setIsLoading(true);
-  }
-
-  function renderConfirmationForm() {
-    return (
-      <form onSubmit={handleConfirmationSubmit}>
-        <FormGroup controlId="confirmationCode" bsSize="large">
-          <ControlLabel>Confirmation Code</ControlLabel>
-          <FormControl
-            autoFocus
-            type="tel"
-            onChange={handleFieldChange}
-            value={fields.confirmationCode}
-          />
-          <HelpBlock>Please check your email for the code.</HelpBlock>
-        </FormGroup>
-        <LoaderButton
-          block
-          type="submit"
-          bsSize="large"
-          isLoading={isLoading}
-          disabled={!validateConfirmationForm()}
-        >
-          Verify
-        </LoaderButton>
-      </form>
-    );
-  }
-
-  function renderForm() {
+  function renderForm () {
     return (
       <form onSubmit={handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
+        <FormGroup controlId='email' bsSize='large'>
+          <Form.Label>Email</Form.Label>
           <FormControl
             autoFocus
-            type="email"
-            value={fields.email}
-            onChange={handleFieldChange}
+            type='email'
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
+        <FormGroup controlId='password' bsSize='large'>
+          <Form.Label>Password</Form.Label>
           <FormControl
-            type="password"
-            value={fields.password}
-            onChange={handleFieldChange}
+            type='password'
+            value={password1}
+            onChange={(event) => setPassword1(event.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password</ControlLabel>
+        <FormGroup controlId='confirmPassword' bsSize='large'>
+          <Form.Label>Confirm Password</Form.Label>
           <FormControl
-            type="password"
-            onChange={handleFieldChange}
-            value={fields.confirmPassword}
+            type='password'
+            onChange={(event) => setPassword2(event.target.value)}
+            value={password2}
           />
         </FormGroup>
         <LoaderButton
           block
-          type="submit"
-          bsSize="large"
+          type='submit'
+          bsSize='large'
           isLoading={isLoading}
           disabled={!validateForm()}
         >
           Signup
         </LoaderButton>
       </form>
-    );
+    )
   }
 
   return (
-    <div className="Signup">
-      {newUser === null ? renderForm() : renderConfirmationForm()}
+    <div className='Signup'>
+      {renderForm()}
     </div>
-  );
+  )
 }
 
-export default Registration
+export default withRouter(Registration)
