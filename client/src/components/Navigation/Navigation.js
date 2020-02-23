@@ -15,6 +15,7 @@ const Navigation = () => {
             <Nav className="mr-auto">
                 <Link className="nav-link" to="/">Home</Link>
                 <Link className="nav-link" to="/profile">My Profile</Link>
+                <Link className="nav-link" to="/feed">Feed</Link>
             </Nav>
             <Nav>
                 <Link className="nav-link" to="/login">Login</Link>

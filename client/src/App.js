@@ -8,6 +8,7 @@ import Navigation from './components/Navigation/Navigation';
 
 // import pages
 import Landing from './pages/Landing/Landing';
+import Feed from './pages/Feed/Feed';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage';
 
@@ -29,6 +30,7 @@ function App() {
           {/* put exact so that the component is only rendered when http://localhost/ */}
           <Route exact path='/' component={Landing}/>
           <Route path="/AuthPage" exact component={AuthPage}/>
+          <Route path="/Feed" exact component={Feed}/>
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage}/>
         </Switch>
