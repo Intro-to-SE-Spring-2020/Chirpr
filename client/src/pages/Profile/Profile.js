@@ -27,7 +27,6 @@ function Profile(props){
         </Row>
     </Container>
     )
-
 }
 
 
