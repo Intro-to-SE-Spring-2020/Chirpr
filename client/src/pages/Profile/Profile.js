@@ -1,8 +1,8 @@
-// import React, { Component } from 'react'
-// import Card from '../../components/profileCard/profileCard.js';
-// import {Container, Row, Col } from "react-bootstrap";
+import React, { Component } from 'react'
+import Card from '../../components/profileCard/profileCard.js';
+import {Container, Row, Col } from "react-bootstrap";
 
-// function Profile(props){
+function Profile(props){
 //     const [bio, setBio] = useState("") //initial state of bio is empty
 //     function getProfileData(){
 //         axios({
@@ -16,20 +16,20 @@
 
 
 //     }
-//     return (
-//         <Container>
-//         <Row>
-//             <Col> </Col>
-//             <Col xs={6}>
-//                 <Card />
-//                 </Col>
-//             <Col> </Col>
-//         </Row>
-//     </Container>
-//     )
+    return (
+        <Container>
+        <Row>
+            <Col> </Col>
+            <Col xs={6}>
+                <Card />
+                </Col>
+            <Col> </Col>
+        </Row>
+    </Container>
+    )
 
-// }
+}
 
 
-// export default Profile
+export default Profile
 
