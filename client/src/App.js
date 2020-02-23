@@ -12,15 +12,10 @@ import ErrorPage from './pages/ErrorPage/ErrorPage'
 import AuthPage from './pages/AuthPage/AuthPage'
 import Profile from './pages/Profile/Profile'
 
-// Font Awesome (May be used for design later)
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-// import { library } from '@fortawesome/fontawesome-svg-core'
-
-// Global list so we don't have to import each icon in each react component
-// library.add(faSpinner)
+import { isAuthed } from '../../lib/api/auth'
 
 function App () {
+  console.log(isAuthed())
   return (
     <Router>
       <div data-testid='app' className='App'>

@@ -4,8 +4,6 @@ import '../../App.css'
 import HomepageImage from '../../components/HomepageImage.js'
 
 function App () {
-  const cookies = new Cookies()
-  console.log(cookies.get('x-auth-token'))
   return (
     <div className='App'>
       <header className='App-header'>
