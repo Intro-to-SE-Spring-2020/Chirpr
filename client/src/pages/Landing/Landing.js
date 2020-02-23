@@ -5,7 +5,7 @@ import HomepageImage from '../../components/HomepageImage.js'
 
 function App () {
   return (
-    <div className='App'>
+    <div data-testid='landing' className='App'>
       <header className='App-header'>
         <HomepageImage />
         <p>
