@@ -7,12 +7,24 @@ import './App.css'
 import Navigation from './components/Navigation/Navigation'
 
 // import pages
-import Landing from './pages/Landing/Landing'
-import ErrorPage from './pages/ErrorPage/ErrorPage'
+import Landing from './pages/Landing/Landing';
+import Feed from './pages/Feed/Feed';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage'
 import Profile from './pages/Profile/Profile'
 
+<<<<<<< HEAD
 import { isAuthed } from '../../lib/api/auth'
+=======
+
+// Font Awesome (May be used for design later)
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+// import { library } from '@fortawesome/fontawesome-svg-core'
+
+// Global list so we don't have to import each icon in each react component
+// library.add(faSpinner)
+>>>>>>> d9678a583280acb4e545475b21651550b72fd23e
 
 function App () {
   console.log(isAuthed())
@@ -26,6 +38,7 @@ function App () {
           <Route path='/register' exact component={() => <AuthPage register login={false} />} />
           <Route path='/login' exact component={() => <AuthPage register={false} login />} />
           <Route path='/profile' exact component={() => <Profile />} />
+          <Route path="/Feed" exact component={Feed}/>
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage} />
         </Switch>
