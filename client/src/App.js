@@ -1,41 +1,40 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
 
 // import navbar
-import Navigation from './components/Navigation/Navigation';
+import Navigation from './components/Navigation/Navigation'
 
 // import pages
-import Landing from './pages/Landing/Landing';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
-import AuthPage from './pages/AuthPage/AuthPage';
+import Landing from './pages/Landing/Landing'
+import ErrorPage from './pages/ErrorPage/ErrorPage'
+import AuthPage from './pages/AuthPage/AuthPage'
 
-//Font Awesome (May be used for design later)
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-//import { library } from '@fortawesome/fontawesome-svg-core'
+// Font Awesome (May be used for design later)
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+// import { library } from '@fortawesome/fontawesome-svg-core'
 
-//Global list so we don't have to import each icon in each react component
-//library.add(faSpinner)
+// Global list so we don't have to import each icon in each react component
+// library.add(faSpinner)
 
-
-function App() {
+function App () {
   return (
     <Router>
-      <div data-testid="app" className="App">
-        <Navigation/>
+      <div data-testid='app' className='App'>
+        <Navigation />
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
-          <Route exact path='/' component={Landing}/>
-          <Route path="/register" exact component={() => <AuthPage register={true} login={false} />} />
-          <Route path="/login" exact component={() => <AuthPage register={false} login={true} />} />
+          <Route exact path='/' component={Landing} />
+          <Route path='/register' exact component={() => <AuthPage register login={false} />} />
+          <Route path='/login' exact component={() => <AuthPage register={false} login />} />
           {/* Add all pages above the error page! -KRW */}
-          <Route path='*' component={ErrorPage}/>
+          <Route path='*' component={ErrorPage} />
         </Switch>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
