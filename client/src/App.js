@@ -1,5 +1,5 @@
-import React, { Profiler } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import React, { Profiler, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -13,20 +13,18 @@ import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage'
 import Profile from './pages/Profile/Profile'
 
-
-// Font Awesome (May be used for design later)
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-// import { library } from '@fortawesome/fontawesome-svg-core'
-
-// Global list so we don't have to import each icon in each react component
-// library.add(faSpinner)
+import { isAuthed } from './lib/api/auth'
 
 function App () {
+  const [authed, setAuthed] = React.useState(false)
+
+  useEffect(() => {
+    setAuthed(isAuthed())
+  }, [window.location.href])
+
   return (
-    <Router>
       <div data-testid='app' className='App'>
-        <Navigation />
+        <Navigation status={authed} />
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
           <Route exact path='/' component={Landing} />
@@ -38,8 +36,7 @@ function App () {
           <Route path='*' component={ErrorPage} />
         </Switch>
       </div>
-    </Router>
   )
 }
 
-export default App
+export default withRouter(App)
