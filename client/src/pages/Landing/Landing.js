@@ -1,14 +1,14 @@
-import React from 'react';
-import Cookies from 'universal-cookie';
-import '../../App.css';
-import HomepageImage from '../../components/HomepageImage.js';
+import React from 'react'
+import Cookies from 'universal-cookie'
+import '../../App.css'
+import HomepageImage from '../../components/HomepageImage.js'
 
-function App() {
-  const cookies = new Cookies();
-  console.log(cookies.get('x-auth-token'));
+function App () {
+  const cookies = new Cookies()
+  console.log(cookies.get('x-auth-token'))
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className='App'>
+      <header className='App-header'>
         <HomepageImage />
         <p>
           Welcome to Chirpr!
@@ -18,7 +18,7 @@ function App() {
         </p>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
