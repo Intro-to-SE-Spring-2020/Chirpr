@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
+import CreateProfile from '../../components/Profile/CreateProfile'
 
-class Profile extends Component {
-    render () {
-        return (
-            <div>
-                Profile Page!
-            </div>
-        )
-    }
+import './CreateProfile.css'
+
+function Profile (props) {
+  return (
+    <div>
+        Profile Page!
+        <CreateProfile />
+    </div>
+    )
 }
 
 export default Profile
