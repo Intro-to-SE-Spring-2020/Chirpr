@@ -7,10 +7,12 @@ import './App.css'
 import Navigation from './components/Navigation/Navigation'
 
 // import pages
-import Landing from './pages/Landing/Landing'
-import ErrorPage from './pages/ErrorPage/ErrorPage'
+import Landing from './pages/Landing/Landing';
+import Feed from './pages/Feed/Feed';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage'
 import Profile from './pages/Profile/Profile'
+
 
 // Font Awesome (May be used for design later)
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -31,6 +33,7 @@ function App () {
           <Route path='/register' exact component={() => <AuthPage register login={false} />} />
           <Route path='/login' exact component={() => <AuthPage register={false} login />} />
           <Route path='/profile' exact component={() => <Profile />} />
+          <Route path="/Feed" exact component={Feed}/>
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage} />
         </Switch>
