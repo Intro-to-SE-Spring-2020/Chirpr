@@ -24,7 +24,8 @@
   
 
   .bg {
-    
+    width: 700px;
+    height: 180px;
     border-bottom: 8px solid #5cc0ff; }
   
   .bio:hover > .desc {

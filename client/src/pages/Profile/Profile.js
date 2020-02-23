@@ -3,7 +3,19 @@ import Card from '../../components/profileCard/profileCard.js';
 import {Container, Row, Col } from "react-bootstrap";
 
 function Profile(props){
-    const [bio, setBio]
+    const [bio, setBio] = useState("") //initial state of bio is empty
+    function getProfileData(){
+        axios({
+            method: 'get'
+            url: 'http:'
+            data: {
+
+                
+            }
+        })
+
+
+    }
     return (
         <Container>
         <Row>
