@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../chirpCard/chirpCard.css';
+import './chirpCard.css';
 
 
 function Bio(props) {
@@ -20,7 +20,7 @@ function Avatar(props) {
         <div className="avatarcontainer">
             <img src={props.user.avatarURI} alt={props.user.username} className="avatar"/>
             <div className="hover">
-                    <div className="icon-twitter"></div>
+                    <div className=""></div>
             </div>
         </div>
     );
@@ -30,7 +30,7 @@ function Header(props) {
     return(
         <header>
             <Bio user={props.user}/>
-            <Avatar user={props.user}/>
+            <Avatar user={user}/>
         </header>
     );
 }
@@ -40,8 +40,8 @@ function Data(props) {
         <div className="data">
             <ul>
                 <li key="1">
-                    {props.user.tweets}
-                    <span>Tweets</span>
+                    {props.user.chirps}
+                    <span>Chirps</span>
                 </li>
                 <li key="2">
                     {props.user.followers}
@@ -60,16 +60,16 @@ function Content(props) {
     return(
         <div className="content">
 			<Data user={props.user}/>
-			<div className="follow"> <div class="icon-twitter"></div> Follow</div>
+			<div className="follow"> <div class=""></div> Follow</div>
 		</div>
     );
 }
 
-function Card(props) {
+function Card() {
     return(
         <div>
-            <Header user={props.user}/>
-            <Content user={props.user}/>
+            <Header user={user}/>
+            <Content user={user}/>
         </div>
     );
 }
@@ -80,7 +80,7 @@ const user = {
     username: "belal",
     bio: "Carl Fredricksen is the protagonist in Up. He also appeared in Dug's Special Mission as a minor character.",
     avatarURI: "http://www.croop.cl/UI/twitter/images/carl.jpg",
-    tweets: "245",
+    chirps: "245",
     followers: "100",
     following: "415",
 }

@@ -22,21 +22,9 @@
     -webkit-border-top-right-radius: 8px;
     border-top-right-radius: 8px; }
   
-  #root {
-    width: 320px;
-    margin: 3em auto 1em auto;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
-    border-radius: 8px;
-    padding-bottom: 1.5em;
-    background-color: #dde1e2;
-    -webkit-box-shadow: #bdc3c7 0 5px 5px;
-    -moz-box-shadow: #bdc3c7 0 5px 5px;
-    box-shadow: #bdc3c7 0 5px 5px; }
-  
+
   .bg {
+    
     border-bottom: 8px solid #5cc0ff; }
   
   .bio:hover > .desc {
@@ -159,7 +147,7 @@
   
   .follow {
     margin: 1.5em auto 0 auto;
-    background-color: #2589cc;
+    background-color: #3f5ec5;
     width: 150px;
     color: white;
     font-family: "Lato";

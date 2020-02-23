@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../App.css';
 import HomepageImage from '../../components/HomepageImage.js';
-import Card from '../../components/chirpCard/chirpCard.js'
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
         </p>
         <p>
           Join the Chirpr community community and chirp away!
-          <Card />
         </p>
       </header>
     </div>

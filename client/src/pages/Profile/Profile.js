@@ -1,13 +1,23 @@
 import React, { Component } from 'react'
+import Card from '../../components/profileCard/profileCard.js';
+import {Container, Row, Col } from "react-bootstrap";
 
-class Profile extends Component {
-    render () {
-        return (
-            <div>
-                Profile Page!
-            </div>
-        )
-    }
+function Profile(props){
+    const [bio, setBio]
+    return (
+        <Container>
+        <Row>
+            <Col> </Col>
+            <Col xs={6}>
+                <Card />
+                </Col>
+            <Col> </Col>
+        </Row>
+    </Container>
+    )
+
 }
 
+
 export default Profile
+
