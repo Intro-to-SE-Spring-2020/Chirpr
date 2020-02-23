@@ -1,15 +1,35 @@
-import React, { Component } from 'react'
-import CreateProfile from '../../components/Profile/CreateProfile'
+// import React, { Component } from 'react'
+// import Card from '../../components/profileCard/profileCard.js';
+// import {Container, Row, Col } from "react-bootstrap";
 
-import './CreateProfile.css'
+// function Profile(props){
+//     const [bio, setBio] = useState("") //initial state of bio is empty
+//     function getProfileData(){
+//         axios({
+//             method: 'get'
+//             url: 'http:'
+//             data: {
 
-function Profile (props) {
-  return (
-    <div>
-        Profile Page!
-        <CreateProfile />
-    </div>
-    )
-}
+                
+//             }
+//         })
 
-export default Profile
+
+//     }
+//     return (
+//         <Container>
+//         <Row>
+//             <Col> </Col>
+//             <Col xs={6}>
+//                 <Card />
+//                 </Col>
+//             <Col> </Col>
+//         </Row>
+//     </Container>
+//     )
+
+// }
+
+
+// export default Profile
+
