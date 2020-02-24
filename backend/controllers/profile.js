@@ -5,7 +5,24 @@ exports.getProfile = async (req, res) => {
 
   try {
     const profile = await Profile.findOne({ username: username })
-      .select('-_id')
+    if (!profile) {
+      return res.status(400).json({
+        msg: 'There is no profile for this username'
+      })
+    }
+
+    res.json(profile)
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+exports.getCurrentProfile = async (req, res) => {
+  const { user } = req
+
+  try {
+    const profile = await Profile.findOne({ user })
     if (!profile) {
       return res.status(400).json({
         msg: 'There is no profile for this username'

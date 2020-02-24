@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 // import controllers
-const { getProfile, createOrUpdateProfile } = require('../controllers/profile')
+const { getProfile, getCurrentProfile, createOrUpdateProfile } = require('../controllers/profile')
 
 // import validators
 const { userProfileValidator } = require('../validators/profile')
@@ -15,6 +15,11 @@ const { auth } = require('../middleware/auth')
 // @desc    Get a user profile that is not own
 // @access  Private
 router.get('/user/profile/:username', auth, getProfile)
+
+// @route   GET api/user/profile
+// @desc    Get current user's profile
+// @access  Private
+router.get('/user/profile', auth, getCurrentProfile)
 
 // @route   POST api/user/profile/createOrUpdate
 // @desc    Create or Update current user profile
