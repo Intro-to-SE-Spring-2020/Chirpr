@@ -4,6 +4,7 @@ import './RegForm.css'
 // import Login from '../../components/LoginAndReg/Login';
 import Login from '../../components/LoginAndReg/Login'
 import Registration from '../../components/LoginAndReg/Registration'
+import CreateProfile from '../../components/CreateProfile/CreateProfile'
 
 function AuthPage (props) {
   const { login, register } = props
@@ -13,6 +14,9 @@ function AuthPage (props) {
   }
   if (register) {
     return <Registration />
+  }
+  if (CreateProfile) {
+    return <CreateProfile/>
   }
 }
 
