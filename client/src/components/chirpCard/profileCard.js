@@ -73,8 +73,6 @@ function Card() {
         </div>
     );
 }
-
-
 const user = {
     bgURI: "http://www.croop.cl/UI/twitter/images/up.jpg",
     username: "belal",

@@ -14,6 +14,8 @@ import AuthPage from './pages/AuthPage/AuthPage'
 import Profile from './pages/Profile/Profile'
 
 import { isAuthed } from './lib/api/auth'
+import Login from './components/LoginAndReg/Login'
+import Logout from './pages/Profile/Logout'
 
 function App () {
   const [authed, setAuthed] = React.useState(false)
@@ -30,6 +32,7 @@ function App () {
           <Route exact path='/' component={Landing} />
           <Route path='/register' exact component={() => <AuthPage register login={false} createProfile={false} />} />
           <Route path='/login' exact component={() => <AuthPage register={false} login createProfile={false} />} />
+          <Route path='/logout' exact component={Logout} />
           <Route path='/create-profile' exact component={() => <AuthPage register={false} login={false} createProfile />} />
           <Route path='/profile' exact component={() => <Profile />} />
           <Route path="/Feed" exact component={Feed}/>
