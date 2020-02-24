@@ -9,12 +9,14 @@ const Login = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
   function validateForm () {
     return email.length > 0 && password.length > 5
   }
 
   async function handleSubmit (event) {
     event.preventDefault()
+
     setIsLoading(true)
     // call api
     axios({
@@ -28,8 +30,14 @@ const Login = (props) => {
       .then((success) => {
         const cookies = new Cookies()
         cookies.set('x-auth-token', success.data.token, { path: '/' })
-        // parse info here and create dummy profile info
-        props.history.push('/')
+
+        if (success.data.hasProfile) {
+          // parse info here and create dummy profile info
+          props.history.push('/')
+        } else {
+          props.history.push('/create-profile')
+        }
+        
       })
       .catch(err => {
         setEmail('')

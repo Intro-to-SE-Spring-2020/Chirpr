@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import LoaderButton from '../Buttons/LoaderButton'
+import './CreateProfile.css'
 
 const CreateProfile = (props) => {
   const [firstn, setFirstn] = useState('')
@@ -11,7 +12,6 @@ const CreateProfile = (props) => {
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
   const [dob, setDob] = useState('')
-  const [lastName, setLastName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   function validateForm () {
@@ -26,6 +26,10 @@ const CreateProfile = (props) => {
 
   async function handleSubmit (event) {
     event.preventDefault()
+
+    const cookies = new Cookies()
+    const token = cookies.get('x-auth-token')
+
     setIsLoading(true)
     // call api
     axios({
@@ -37,10 +41,13 @@ const CreateProfile = (props) => {
         bio,
         username,
         dob
+      },
+      headers: {
+        'x-auth-token': token
       }
     })
       .then((success) => {
-        props.history.push('/')
+        props.history.push('/profile')
       })
       .catch(err => {
         setLastn('')
@@ -81,7 +88,7 @@ const CreateProfile = (props) => {
           />
         </FormGroup>
         <FormGroup controlId="bio" bsSize="large">
-          <FormLabel>Short Bio</FormLabel>
+          <FormLabel>Short Bio (120 characters)</FormLabel>
           <FormControl
             autoFocus
             type="bio"
@@ -90,7 +97,7 @@ const CreateProfile = (props) => {
           />
         </FormGroup>
         <FormGroup controlId="dob" bsSize="large">
-          <FormLabel>Date of Birth</FormLabel>
+          <FormLabel>Date of Birth (YYYY-MM-DD)</FormLabel>
           <FormControl
             autoFocus
             type="dob"

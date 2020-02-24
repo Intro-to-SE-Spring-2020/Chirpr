@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 
 // import models
 const User = require('../models/User')
+const Profile = require('../models/Profile')
 
 exports.signup = async (req, res) => {
   // 1: destruct name, email, password
@@ -55,6 +56,13 @@ exports.signin = async (req, res) => {
       })
     }
 
+    // check for profile
+    const profile = await Profile.findOne({ user: user.id })
+    if (!profile) 
+      hasProfile = false;
+    else
+      hasProfile = true;
+
     // create payload
     const payload = {
       user: {
@@ -69,7 +77,7 @@ exports.signin = async (req, res) => {
       { expiresIn: '1d' },
       (err, token) => {
         if (err) throw err
-        res.json({ token })
+        res.json({ token, hasProfile })
       }
     )
   } catch (err) {

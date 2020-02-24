@@ -28,8 +28,9 @@ function App () {
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
           <Route exact path='/' component={Landing} />
-          <Route path='/register' exact component={() => <AuthPage register login={false} />} />
-          <Route path='/login' exact component={() => <AuthPage register={false} login />} />
+          <Route path='/register' exact component={() => <AuthPage register login={false} createProfile={false} />} />
+          <Route path='/login' exact component={() => <AuthPage register={false} login createProfile={false} />} />
+          <Route path='/create-profile' exact component={() => <AuthPage register={false} login={false} createProfile />} />
           <Route path='/profile' exact component={() => <Profile />} />
           <Route path="/Feed" exact component={Feed}/>
           {/* Add all pages above the error page! -KRW */}
