@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormGroup, FormControl, FormLabel } from 'react-bootstrap'
+import { Alert, FormGroup, FormControl, FormLabel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
@@ -9,6 +9,7 @@ const Login = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState('')
 
   function validateForm () {
     return email.length > 0 && password.length > 5
@@ -42,13 +43,20 @@ const Login = (props) => {
       .catch(err => {
         setEmail('')
         setPassword('')
+        setErrors(err.response.data.error)
         setIsLoading(false)
       })
   }
 
+  const renderErrors = () => {
+    if (errors) return <Alert variant="danger">{errors}</Alert>
+    else return <></>
+  }
+  
   return (
     <div className='AuthPage'>
       <form onSubmit={handleSubmit}>
+      {renderErrors()}
         <FormGroup controlId='email' bsSize='large'>
           <FormLabel>Email</FormLabel>
           <FormControl
