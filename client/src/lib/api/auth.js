@@ -8,3 +8,8 @@ export const isAuthed = () => {
     // verify token is valid with api
     return token ? true : false
 }
+
+export const logout = () => {
+    const cookies = new Cookies()
+    cookies.remove('x-auth-token')
+}
