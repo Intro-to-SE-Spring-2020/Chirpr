@@ -1,5 +1,4 @@
 import React from 'react'
-import Cookies from 'universal-cookie'
 import '../../App.css'
 import HomepageImage from '../../components/HomepageImage.js'
 

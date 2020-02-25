@@ -1,5 +1,5 @@
-import React, { Profiler, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -17,6 +17,7 @@ import { isAuthed } from './lib/api/auth'
 import { logout } from '../src/lib/api/auth'
 
 function App (props) {
+  const [authed, setAuthed] = React.useState(false)
   
   const handleLogout = () => {
     logout()
@@ -27,8 +28,6 @@ function App (props) {
         setAuthed(isAuthed())
     }
   }
-
-  const [authed, setAuthed] = React.useState(false)
 
   useEffect(() => {
     setAuthed(isAuthed())

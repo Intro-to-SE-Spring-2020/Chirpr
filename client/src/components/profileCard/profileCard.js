@@ -74,13 +74,4 @@ function Card(props) {
     );
 }
 
-
-const user = {
-    username: "belal",
-    bio: "Carl Fredricksen is the protagonist in Up. He also appeared in Dug's Special Mission as a minor character.",
-    chirps: "245",
-    followers: "100",
-    following: "415",
-}
-
-  export default Card;
+export default Card;

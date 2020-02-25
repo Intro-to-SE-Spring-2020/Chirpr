@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-import Card from '../../components/profileCard/profileCard.js';
-import {Container, Row, Col } from "react-bootstrap";
+import React, { Component } from 'react'
 
 class ErrorPage extends Component {
   render () {
