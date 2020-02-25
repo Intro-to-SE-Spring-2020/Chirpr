@@ -1,10 +1,12 @@
 import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import Cookies from 'universal-cookie'
 
 const Navigation = (props) => {
-
+  
   const renderNavigation = (authed) => {
+    
     if (authed === true) {
       return (
         <Navbar bg='dark' variant='dark'>
@@ -15,7 +17,7 @@ const Navigation = (props) => {
             <Link className="nav-link" to="/feed">Feed</Link>
           </Nav>
           <Nav>
-            <Link className='nav-link' to='/logout'>Logout</Link>
+            <Link className='nav-link' onClick={props.handleLogout}>Logout</Link>
           </Nav>
         </Navbar>
       )
@@ -29,7 +31,7 @@ const Navigation = (props) => {
         </Nav>
         <Nav>
           <Link className='nav-link' to='/login'>Login</Link>
-          <Link className='nav-link' to='/register'>Register</Link>
+          <Link className='nav-link' to='/register' >Register</Link>
         </Nav>
       </Navbar>
     )
