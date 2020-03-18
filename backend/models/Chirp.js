@@ -27,6 +27,6 @@ const chirpSchema = new mongoose.Schema({
       }
     }
   ]
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model('Chirp', chirpSchema)

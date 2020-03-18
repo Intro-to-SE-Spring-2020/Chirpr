@@ -1,10 +1,53 @@
 // models
 const Chirp = require('../models/Chirp')
+const Profile = require('../models/Profile')
 
 exports.getChirps = async (req, res) => {
   try {
     // 1. fetch from mongodb
-    const chirps = await Chirp.find()
+    let chirps = await Chirp.find()
+      .sort({ 'updatedAt': '-1' })
+    let userProfile;
+
+    const result = chirps.map(async elem => {
+      
+      let isOwned = false;
+      const reqUser = req.user.toString()
+      const elemUser = elem.user.toString()
+      if (reqUser === elemUser) isOwned = true
+      
+      // FIXME: potential bottleneck
+      userProfile = await Profile.findOne({ user: elem.user })
+
+      const { first_name, last_name, username } = userProfile;
+      const name = `${first_name} ${last_name}`
+
+      const {
+        user,
+        content,
+        retweets,
+        likes,
+        createdAt,
+        updatedAt,
+        _id
+      } = elem
+
+      return {
+        _id,
+        name,
+        username,
+        user,
+        isOwned,
+        content,
+        retweets,
+        likes,
+        createdAt,
+        updatedAt
+      }
+    })
+    chirps = await Promise.all(result)
+    // console.log(newChirps)
+
     if (chirps) {
       return res.json({
         chirps
@@ -24,6 +67,7 @@ exports.createChirp = async (req, res) => {
   try {
     // 1. destructure data
     const { content } = req.body
+
     const { user } = req
 
     // 2. Create chirp
@@ -38,6 +82,43 @@ exports.createChirp = async (req, res) => {
       }
       res.json(chirp)
     })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+exports.editChirp = async (req, res) => {
+  try {
+    const { content } = req.body
+    const { id } = req.params
+
+    const chirp = await Chirp.findByIdAndUpdate(
+      { _id: id },
+      { content },
+      { new: true }
+    )
+    res.json(chirp)
+
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+exports.deleteChirp = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    await Chirp.findByIdAndDelete({ _id: id })
+    const result = await Chirp.findById({ _id: id })
+    
+    if (!result) {
+      res.status(200).json({
+        msg: "Chirp deleted!"
+      })
+    }
+
   } catch (err) {
     console.error(err)
     res.status(500).send('Server error')
