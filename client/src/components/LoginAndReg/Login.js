@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-import { Alert, FormGroup, FormControl, FormLabel } from 'react-bootstrap'
+import { FormGroup, FormControl, FormLabel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
+import { withCookies, useCookies } from 'react-cookie'
+import { compose } from 'recompose'
 import axios from 'axios'
-import Cookies from 'universal-cookie'
+import { delay } from 'lodash'
+
 import LoaderButton from '../Buttons/LoaderButton'
 import AlertMessage from '../AlertMessage/AlertMessage'
 
 const Login = (props) => {
+  const [cookies, setCookie] = useCookies();
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -34,10 +38,9 @@ const Login = (props) => {
       });
       
       if (res.status === 200) {
-        const cookies = new Cookies()
         const expireDate = new Date()
-        expireDate.setHours(expireDate.getHours() + 2)
-        cookies.set('x-auth-token', res.data.token, { path: '/', expires:  expireDate })
+        expireDate.setMinutes(expireDate.getMinutes() + 119)
+        setCookie('x-auth-token', res.data.token, { path: '/', expires:  expireDate })
   
         if (res.data.hasProfile) {
           // parse info here and create dummy profile info
@@ -53,7 +56,6 @@ const Login = (props) => {
         setError(true)
       }
     } catch (err) {
-      console.log(err)
       if (err.response.status === 400) {
         setMsg(`${err.response.data.error}.`)
         setError(true)
@@ -103,4 +105,7 @@ const Login = (props) => {
   )
 }
 
-export default withRouter(Login)
+export default compose(
+  withRouter,
+  withCookies
+)(Login)
