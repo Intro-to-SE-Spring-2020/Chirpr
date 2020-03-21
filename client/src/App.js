@@ -35,10 +35,10 @@ function App (props) {
           {/* put exact so that the component is only rendered when http://localhost/ */}
           <PrivateRoute path='/create-profile' isAuthed={isAuthed} exact component={() => <AuthPage register={false} login={false} createProfile />} />
           <PrivateRoute path="/Feed" isAuthed={isAuthed} exact component={Feed}/>
+          <PrivateRoute path='/profile' exact component={() => <Profile />} />
           <Route exact path='/' component={Landing} />
           <Route path='/register' exact component={() => <AuthPage register login={false} createProfile={false} />} />
           <Route path='/login' exact component={() => <AuthPage register={false} login createProfile={false} />} />
-          <Route path='/profile' exact component={() => <Profile />} />
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage} />
         </Switch>
