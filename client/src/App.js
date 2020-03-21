@@ -24,10 +24,8 @@ function App (props) {
   
   const handleLogout = () => {
     setLogout(true)
-    if (!isAuthed) {
+    if (!isAuthed)
       setLogout(false)
-      props.history.push('/login')
-    }
   }
 
   return (
