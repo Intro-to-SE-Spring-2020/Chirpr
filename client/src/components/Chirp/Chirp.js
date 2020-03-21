@@ -20,6 +20,7 @@ const Chirp = (props) => {
     const [chirpContent, setChirpContent] = React.useState(props.data.content)
     const [showInput, setShowInput] = React.useState(false);
     const [isEditing, setEditing] = React.useState(false);
+    const [liked, setLiked] = React.useState(false);
     const inputRef = React.useRef(null);
 
     const { name, username, content, likes, retweets, time, _id } = props.data;
@@ -106,6 +107,24 @@ const Chirp = (props) => {
         }
     }
 
+    const likeButton = () => {
+        if (!liked) {
+            return (
+                <span onClick={() => setLiked(true)} style={{cursor: 'pointer'}}>
+                    <Heart className="mr-2" style={{fontSize: '24px'}}/>
+                    0
+                </span>
+            )
+        } else {
+            return (
+                <span onClick={() => setLiked(false)} style={{color: 'red', cursor: 'pointer'}}>
+                    <HeartFill className="mr-2" style={{color: 'red', fontSize: '24px'}}/>
+                    1
+                </span>
+            )
+        }
+    }
+
     return (
         <>
             <Card className={["shadow", props.className]}>
@@ -134,10 +153,7 @@ const Chirp = (props) => {
                     </Card.Text>
                     {renderInput()}
                     <div className="pl-5">
-                        <span style={{cursor: 'pointer'}}>
-                            <Heart style={{fontSize: '24px'}}/>
-                            Like
-                        </span>
+                        {likeButton()}
                         <span style={{cursor: 'pointer'}} className="ml-4">
                             <ArrowRepeat style={{fontSize: '24px'}}/>
                             ReChirp
