@@ -30,7 +30,9 @@ const Login = (props) => {
     })
       .then((success) => {
         const cookies = new Cookies()
-        cookies.set('x-auth-token', success.data.token, { path: '/' })
+        const expireDate = new Date()
+        expireDate.setHours(expireDate.getHours() + 2)
+        cookies.set('x-auth-token', success.data.token, { path: '/', expires:  expireDate })
 
         if (success.data.hasProfile) {
           // parse info here and create dummy profile info
