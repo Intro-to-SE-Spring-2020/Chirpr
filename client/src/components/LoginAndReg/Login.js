@@ -1,62 +1,85 @@
 import React, { useState } from 'react'
-import { Alert, FormGroup, FormControl, FormLabel } from 'react-bootstrap'
+import { FormGroup, FormControl, FormLabel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
+import { withCookies, useCookies } from 'react-cookie'
+import { compose } from 'recompose'
 import axios from 'axios'
-import Cookies from 'universal-cookie'
+import { delay } from 'lodash'
+
 import LoaderButton from '../Buttons/LoaderButton'
+import AlertMessage from '../AlertMessage/AlertMessage'
 
 const Login = (props) => {
+  const [cookies, setCookie] = useCookies();
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState('')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = React.useState(false);
+  const [msg, setMsg] = React.useState('');
 
   function validateForm () {
     return email.length > 0 && password.length > 5
   }
 
-  async function handleSubmit (event) {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     setIsLoading(true)
-    // call api
-    axios({
-      method: 'post',
-      url: 'http://localhost:8000/api/signin',
-      data: {
-        email,
-        password
-      }
-    })
-      .then((success) => {
-        const cookies = new Cookies()
-        cookies.set('x-auth-token', success.data.token, { path: '/' })
-
-        if (success.data.hasProfile) {
+    try {
+      // call api
+      const res = await axios({
+        method: 'post',
+        url: 'http://localhost:8000/api/signin',
+        data: {
+          email,
+          password
+        }
+      });
+      
+      if (res.status === 200) {
+        const expireDate = new Date()
+        expireDate.setMinutes(expireDate.getMinutes() + 119)
+        setCookie('x-auth-token', res.data.token, { path: '/', expires:  expireDate })
+  
+        if (res.data.hasProfile) {
           // parse info here and create dummy profile info
-          props.history.push('/')
+          props.history.push('/feed')
         } else {
           props.history.push('/create-profile')
         }
-        
-      })
-      .catch(err => {
+      }
+      else {
         setEmail('')
         setPassword('')
-        setErrors(err.response.data.error)
+        setMsg(`Status: ${res.status}. Could not sign in! Try refreshing page.`)
+        setError(true)
+      }
+    } catch (err) {
+      if (err.response.status === 400) {
+        setMsg(`${err.response.data.error}.`)
+        setError(true)
         setIsLoading(false)
-      })
-  }
-
-  const renderErrors = () => {
-    if (errors) return <Alert variant="danger">{errors}</Alert>
-    else return <></>
+      }
+      else {
+        setMsg(`${err.message}. Could not sign in! Try refreshing page.`)
+        setError(true)
+        setIsLoading(false)
+      }
+    }
   }
   
   return (
     <div className='AuthPage'>
       <form onSubmit={handleSubmit}>
-      {renderErrors()}
+        <AlertMessage
+          success={success}
+          error={error}
+          msg={msg}
+          setSuccess={setSuccess}
+          setError={setError}
+          setMsg={setMsg}
+        />
         <FormGroup controlId='email' bsSize='large'>
           <FormLabel>Email</FormLabel>
           <FormControl
@@ -82,4 +105,7 @@ const Login = (props) => {
   )
 }
 
-export default withRouter(Login)
+export default compose(
+  withRouter,
+  withCookies
+)(Login)

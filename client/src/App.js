@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+
+// import private route
+import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
 // import navbar
 import Navigation from './components/Navigation/Navigation'
@@ -13,37 +16,29 @@ import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage'
 import Profile from './pages/Profile/Profile'
 
-import { isAuthed } from './lib/api/auth'
-import { logout } from '../src/lib/api/auth'
+import useAuthStatus from './lib/hooks/useAuthStatus'
 
 function App (props) {
-  const [authed, setAuthed] = React.useState(false)
+  const [logout, setLogout] = useState(false);
+  const isAuthed = useAuthStatus(logout);
   
   const handleLogout = () => {
-    logout()
-    if (!isAuthed()) {
-        setAuthed(false)
-        props.history.push('/')
-    } else {
-        setAuthed(isAuthed())
-    }
+    setLogout(true)
+    if (!isAuthed)
+      setLogout(false)
   }
-
-  useEffect(() => {
-    setAuthed(isAuthed())
-  }, [window.location.href])
 
   return (
       <div data-testid='app' className='App'>
-        <Navigation status={authed} handleLogout={handleLogout} />
+        <Navigation status={isAuthed} handleLogout={handleLogout} />
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
+          <PrivateRoute path='/create-profile' isAuthed={isAuthed} exact component={() => <AuthPage register={false} login={false} createProfile />} />
+          <PrivateRoute path="/Feed" isAuthed={isAuthed} exact component={Feed}/>
+          <PrivateRoute path='/profile' exact component={() => <Profile />} />
           <Route exact path='/' component={Landing} />
           <Route path='/register' exact component={() => <AuthPage register login={false} createProfile={false} />} />
           <Route path='/login' exact component={() => <AuthPage register={false} login createProfile={false} />} />
-          <Route path='/create-profile' exact component={() => <AuthPage register={false} login={false} createProfile />} />
-          <Route path='/profile' exact component={() => <Profile />} />
-          <Route path="/Feed" exact component={Feed}/>
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage} />
         </Switch>

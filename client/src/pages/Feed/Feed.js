@@ -13,6 +13,7 @@ import Cookies from 'universal-cookie'
 
 import ChirpInputForm from '../../components/ChirpInputForm/ChirpInputForm'
 import Chirp from '../../components/Chirp/Chirp'
+import AlertMessage from '../../components/AlertMessage/AlertMessage'
 import isEmpty from 'lodash'
 
 const  Feed = (props) => {
@@ -143,37 +144,6 @@ const  Feed = (props) => {
     setLoadNew(!loadNew)
   }
 
-  const renderMessage = () => {
-    if (success) {
-      return (
-        <Alert
-          variant="success"
-          dismissible
-          onClose={() => {
-            setSuccess(false)
-            setMsg('')
-          }}
-        >
-          {msg}
-        </Alert>
-      )
-    }
-    else if (error) {
-      return (
-        <Alert
-          variant="danger"
-          dismissible
-          onClose={() => {
-            setError(false)
-            setMsg('')
-          }}
-        >
-          {msg}
-        </Alert>
-      )
-    }
-  }
-
   const renderChirps = () => {
     let chirps;
     if (chirpData !== null) {
@@ -223,7 +193,14 @@ const  Feed = (props) => {
 
   return (
     <Container className="mt-4">
-      {renderMessage()}
+      <AlertMessage
+        success={success}
+        error={error}
+        msg={msg}
+        setSuccess={setSuccess}
+        setError={setError}
+        setMsg={setMsg}
+      />
       <Row>
         <Col className="mx-auto" xs={8}>
           <ChirpInputForm
