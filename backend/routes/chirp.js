@@ -2,7 +2,13 @@ const express = require('express')
 const router = express.Router()
 
 // import controllers
-const { getChirps, createChirp, editChirp, deleteChirp } = require('../controllers/chirp')
+const {
+    getChirps,
+    createChirp,
+    editChirp,
+    deleteChirp,
+    likeOrUnlikeChirp
+} = require('../controllers/chirp')
 
 // import middleware
 const { auth } = require('../middleware/auth')
@@ -28,5 +34,10 @@ router.patch('/chirp/:id', auth, editChirp);
 // @dec     Update chirp
 // @access  Private
 router.delete('/chirp/:id', auth, deleteChirp);
+
+// @route   PATCH api/chirp/:id
+// @dec     Like or Unlike a chirp
+// @access  Private
+router.patch('/chirp/:id/likeorunlike', auth, likeOrUnlikeChirp);
 
 module.exports = router
