@@ -21,10 +21,8 @@ const chirpSchema = new mongoose.Schema({
   ],
   likes: [
     {
-      user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
-      }
     }
   ]
 }, { timestamps: true })

@@ -124,3 +124,53 @@ exports.deleteChirp = async (req, res) => {
     res.status(500).send('Server error')
   }
 }
+
+exports.likeOrUnlikeChirp = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { user } = req
+
+    const chirp = await Chirp.findById(id, "likes");
+
+    if (chirp) {
+
+      if (chirp.likes.includes(user)) {
+        // unlike the chirp
+        chirp.update(
+          { $pull: { likes: user } },
+          (err, data) => {
+            if (err) {
+              return res.status(400).json({
+                msg: err
+              })
+            } else {
+              return res.status(200).json({
+                msg: 'Chirp unliked!'
+              })
+            }
+          }
+        )
+      } else {
+        // like the chirp
+        chirp.update(
+          { $push: { likes: user } },
+          (err, data) => {
+            if (err) {
+              return res.status(400).json({
+                msg: err
+              })
+            } else {
+              return res.status(200).json({
+                msg: 'Chirp liked!'
+              })
+            }
+          }
+        )
+      }
+
+    }
+
+  } catch (err) {
+    res.status(500).send('Server error')
+  }
+}
