@@ -4,7 +4,6 @@ import {
   Row,
   Col,
   Card,
-  Alert,
   Image,
   Button
 } from 'react-bootstrap'
@@ -65,7 +64,7 @@ const  Feed = (props) => {
   
       if (res.status === 200) {
         setChirpFieldData('');
-        setLoadNew(!loadNew)
+        // setLoadNew(!loadNew)
         setMsg('Chirp shared successfully.')
         setSuccess(true)
       }
@@ -140,6 +139,23 @@ const  Feed = (props) => {
     }
   }
 
+  const handleLikeOrUnlike = async (id) => {
+      try {
+          const res = await axios({
+              method: 'patch',
+              url: `http://localhost:8000/api/chirp/${id}/likeorunlike`,
+              headers: {
+                'x-auth-token': token
+              }
+          });
+
+          if (res.status === 200) return res.data;
+          else return false;
+      } catch(err) {
+          return false;
+      }
+}
+
   const handleLoadingNew = () => {
     setLoadNew(!loadNew)
   }
@@ -149,9 +165,9 @@ const  Feed = (props) => {
     if (chirpData !== null) {
       chirps = chirpData.map(chirp => {
         if (isEmpty(chirp)) {
-          const { name, username, isOwned, content, likes, retweets, updatedAt, isLiked, _id } = chirp;
+          const { name, username, isOwned, content, likes, retweets, createdAt, isLiked, _id } = chirp;
           let now = new Date();
-          let time = now - Date.parse(updatedAt); // in ms
+          let time = now - Date.parse(createdAt); // in ms
           time = Math.floor(time / 1000);
           if (time < 60) time = time.toString() + 's'
           else if (time < 3600) {
@@ -174,6 +190,7 @@ const  Feed = (props) => {
               loadNew={handleLoadingNew}
               handleDelete={handleDelete}
               handleEdit={handleEdit}
+              handleLikeOrUnlike={handleLikeOrUnlike}
               key={_id}
             />
           )

@@ -137,7 +137,8 @@ exports.likeOrUnlikeChirp = async (req, res) => {
     const chirp = await Chirp.findById(id, "likes");
 
     if (chirp) {
-
+      let count = chirp.likes.length;
+      let isLiked = false;
       if (chirp.likes.includes(user)) {
         // unlike the chirp
         chirp.update(
@@ -148,14 +149,18 @@ exports.likeOrUnlikeChirp = async (req, res) => {
                 msg: err
               })
             } else {
+              count -= 1;
               return res.status(200).json({
-                msg: 'Chirp unliked!'
+                msg: 'unliked',
+                count,
+                isLiked
               })
             }
           }
         )
       } else {
         // like the chirp
+        isLiked = true;
         chirp.update(
           { $push: { likes: user } },
           (err, data) => {
@@ -164,8 +169,11 @@ exports.likeOrUnlikeChirp = async (req, res) => {
                 msg: err
               })
             } else {
+              count += 1;
               return res.status(200).json({
-                msg: 'Chirp liked!'
+                msg: 'liked',
+                count,
+                isLiked
               })
             }
           }
