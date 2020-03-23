@@ -14,6 +14,7 @@ import {
     X,
     CheckCircle
 } from 'react-bootstrap-icons'
+
 import "./Chirp.scss"
 
 const Chirp = (props) => {
@@ -21,10 +22,13 @@ const Chirp = (props) => {
     const [showInput, setShowInput] = React.useState(false);
     const [isEditing, setEditing] = React.useState(false);
     const [liked, setLiked] = React.useState(false);
+    const [likeCount, setLikeCount] = React.useState(null)
+    const [isLikeSending, setIsLikeSending] = React.useState(false)
     const inputRef = React.useRef(null);
+    const isMounted = React.useRef(true)
 
-    const { name, username, content, likes, retweets, time, _id } = props.data;
-
+    const { name, username, content, likes, retweets, time, isOwned, isLiked, _id } = props.data;
+    
     React.useEffect(() => {
         if (isEditing) {
             inputRef.current.focus();
@@ -34,9 +38,44 @@ const Chirp = (props) => {
             setShowInput(false)
         }
     }, [isEditing, content])
+    
+    React.useEffect(() => {
+        return function cleanup() {
+            setLiked(!liked)
+        }
+    }, [liked])
+    
+    // set isMounted to false when we unmount the component
+    React.useEffect(() => {
+        setLikeCount(likes.length)
+        if (isLiked) setLiked(true)
+        else setLiked(false)
+        return () => {
+            isMounted.current = false
+        }
+    }, [])
+
+    const sendLikeRequest = React.useCallback(async () => {
+        // don't send again while we are sending
+        if (isLikeSending) return
+        // update state
+        setIsLikeSending(true)
+        // send the actual request
+        const {count, isLiked} = await props.handleLikeOrUnlike(_id)
+        // once the request is sent, update state again
+        if (isMounted.current) { // only update if we are still mounted
+            if (isLiked) {
+                setLiked(true)
+            } else if (!isLiked) {
+                setLiked(false)
+            }
+            setLikeCount(count)
+            setIsLikeSending(false)
+        } 
+    }, [isLikeSending]) // update the callback if the state changes
 
     const edit = () => {
-        if (props.data.isOwned && !isEditing) {
+        if (isOwned && !isEditing) {
             return (
                 <span
                     className="float-right"
@@ -50,7 +89,7 @@ const Chirp = (props) => {
                 </span>
             )
         }
-        else if (props.data.isOwned && isEditing) {
+        else if (isOwned && isEditing) {
             return (
                 <>
                     <span
@@ -80,7 +119,7 @@ const Chirp = (props) => {
     }
 
     const del = () => {
-        if (props.data.isOwned) {
+        if (isOwned) {
             return (
                 <span
                     className="float-right text-danger hover-opacity"
@@ -106,20 +145,20 @@ const Chirp = (props) => {
             )
         }
     }
-
+    
     const likeButton = () => {
         if (!liked) {
             return (
-                <span onClick={() => setLiked(true)} style={{cursor: 'pointer'}}>
+                <span onClick={sendLikeRequest} style={{cursor: 'pointer'}}>
                     <Heart className="mr-2" style={{fontSize: '24px'}}/>
-                    0
+                    {likeCount}
                 </span>
             )
         } else {
             return (
-                <span onClick={() => setLiked(false)} style={{color: 'red', cursor: 'pointer'}}>
+                <span onClick={sendLikeRequest} style={{color: 'red', cursor: 'pointer'}}>
                     <HeartFill className="mr-2" style={{color: 'red', fontSize: '24px'}}/>
-                    1
+                    {likeCount}
                 </span>
             )
         }
@@ -140,7 +179,7 @@ const Chirp = (props) => {
                         <span className="ml-5">
                             <strong>{name}</strong>
                             <span className="text-muted ml-2">
-                                @{username} <Dot/> {time}
+                                @{username} <Dot/> {time} ago
                             </span>
                         </span>
                         {edit()}

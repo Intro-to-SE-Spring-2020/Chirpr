@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom'
 import { withCookies, useCookies } from 'react-cookie'
 import { compose } from 'recompose'
 import axios from 'axios'
-import { delay } from 'lodash'
 
 import LoaderButton from '../Buttons/LoaderButton'
 import AlertMessage from '../AlertMessage/AlertMessage'
