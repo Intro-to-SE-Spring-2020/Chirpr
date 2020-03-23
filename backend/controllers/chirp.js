@@ -11,10 +11,13 @@ exports.getChirps = async (req, res) => {
 
     const result = chirps.map(async elem => {
       
-      let isOwned = false;
+      let isOwned = false
+      let isLiked = false
       const reqUser = req.user.toString()
       const elemUser = elem.user.toString()
+      const elemLike = elem.likes.filter(like => like == reqUser)
       if (reqUser === elemUser) isOwned = true
+      if (elemLike.length > 0) isLiked = true
       
       // FIXME: potential bottleneck
       userProfile = await Profile.findOne({ user: elem.user })
@@ -38,6 +41,7 @@ exports.getChirps = async (req, res) => {
         username,
         user,
         isOwned,
+        isLiked,
         content,
         retweets,
         likes,

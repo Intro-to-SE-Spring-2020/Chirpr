@@ -23,7 +23,7 @@ const Chirp = (props) => {
     const [liked, setLiked] = React.useState(false);
     const inputRef = React.useRef(null);
 
-    const { name, username, content, likes, retweets, time, _id } = props.data;
+    const { name, username, content, likes, retweets, time, isOwned, isLiked, _id } = props.data;
 
     React.useEffect(() => {
         if (isEditing) {
@@ -36,7 +36,7 @@ const Chirp = (props) => {
     }, [isEditing, content])
 
     const edit = () => {
-        if (props.data.isOwned && !isEditing) {
+        if (isOwned && !isEditing) {
             return (
                 <span
                     className="float-right"
@@ -50,7 +50,7 @@ const Chirp = (props) => {
                 </span>
             )
         }
-        else if (props.data.isOwned && isEditing) {
+        else if (isOwned && isEditing) {
             return (
                 <>
                     <span
@@ -80,7 +80,7 @@ const Chirp = (props) => {
     }
 
     const del = () => {
-        if (props.data.isOwned) {
+        if (isOwned) {
             return (
                 <span
                     className="float-right text-danger hover-opacity"
@@ -112,14 +112,14 @@ const Chirp = (props) => {
             return (
                 <span onClick={() => setLiked(true)} style={{cursor: 'pointer'}}>
                     <Heart className="mr-2" style={{fontSize: '24px'}}/>
-                    0
+                    {likes.length}
                 </span>
             )
         } else {
             return (
                 <span onClick={() => setLiked(false)} style={{color: 'red', cursor: 'pointer'}}>
                     <HeartFill className="mr-2" style={{color: 'red', fontSize: '24px'}}/>
-                    1
+                    {likes.length + 1}
                 </span>
             )
         }
