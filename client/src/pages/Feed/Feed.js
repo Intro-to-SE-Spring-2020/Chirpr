@@ -149,7 +149,7 @@ const  Feed = (props) => {
     if (chirpData !== null) {
       chirps = chirpData.map(chirp => {
         if (isEmpty(chirp)) {
-          const { name, username, isOwned, content, likes, retweets, updatedAt, _id } = chirp;
+          const { name, username, isOwned, content, likes, retweets, updatedAt, isLiked, _id } = chirp;
           let now = new Date();
           let time = now - Date.parse(updatedAt); // in ms
           time = Math.floor(time / 1000);
@@ -166,7 +166,7 @@ const  Feed = (props) => {
             time = Math.floor(time / (3600*24)); // to days
             time = time.toString() + 'd'
           }
-          const data = { name, username, content, likes, retweets, time, isOwned, _id };
+          const data = { name, username, content, likes, retweets, time, isOwned, isLiked, _id };
           return (
             <Chirp
               className="mb-4"
