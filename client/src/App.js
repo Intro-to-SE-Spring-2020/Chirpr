@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -18,23 +20,28 @@ import Profile from './pages/Profile/Profile'
 
 import useAuthStatus from './lib/hooks/useAuthStatus'
 
-function App (props) {
+function App ({ expiry }) {
   const [logout, setLogout] = useState(false);
-  const isAuthed = useAuthStatus(logout);
+  // const isAuthed = useAuthStatus(logout);
+  
+  const status = () => {
+    const now = Date.now();
+    return Date.parse(expiry) > now;
+  }
   
   const handleLogout = () => {
     setLogout(true)
-    if (!isAuthed)
+    if (!status())
       setLogout(false)
   }
 
   return (
       <div data-testid='app' className='App'>
-        <Navigation status={isAuthed} handleLogout={handleLogout} />
+        <Navigation status={status()} handleLogout={handleLogout} />
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
-          <PrivateRoute path='/create-profile' isAuthed={isAuthed} exact component={() => <AuthPage register={false} login={false} createProfile />} />
-          <PrivateRoute path="/Feed" isAuthed={isAuthed} exact component={Feed}/>
+          <PrivateRoute path='/create-profile' isAuthed={status()} exact component={() => <AuthPage register={false} login={false} createProfile />} />
+          <PrivateRoute path="/Feed" isAuthed={status()} exact component={Feed}/>
           <PrivateRoute path='/profile' exact component={() => <Profile />} />
           <Route exact path='/' component={Landing} />
           <Route path='/register' exact component={() => <AuthPage register login={false} createProfile={false} />} />
@@ -46,4 +53,8 @@ function App (props) {
   )
 }
 
-export default withRouter(App)
+const mapStateToProps = (state) => {
+  return { expiry: state.auth.expiry }
+}
+
+export default withRouter(connect(mapStateToProps)(App))
