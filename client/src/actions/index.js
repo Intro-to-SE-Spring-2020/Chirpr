@@ -2,13 +2,14 @@ import {
     LOGIN,
     LOGOUT,
     REGISTER,
-    IS_LOADING
+    IS_LOADING,
+    REQUEST_ERROR
 } from './types'
 import ApiClient from '../lib/api/ApiClient'
 
 // Action creators
 
-export const login = ({ email, password }) => async (dispatch, getState) => {
+export const login = (email, password) => async (dispatch, getState) => {
     
     try {
         dispatch({ type: IS_LOADING, payload: true });
@@ -24,7 +25,13 @@ export const login = ({ email, password }) => async (dispatch, getState) => {
                 }
             });
         } else {
-            dispatch({ type: LOGIN, payload: response });
+            // set token/expiry in local storage
+            localStorage.setItem('token', response.data.token);
+            const expireDate = new Date();
+            expireDate.setMinutes(expireDate.getMinutes() + 119);
+            localStorage.setItem('expiry', expireDate);
+            // login user, saving user profile to store
+            dispatch({ type: LOGIN, payload: response.data.profile });
         }
 
         dispatch({ type: IS_LOADING, payload: false });
