@@ -1,14 +1,35 @@
-// import {
-//     SONG_SELECT
-// } from './types'
+import {
+    LOGIN,
+    LOGOUT,
+    REGISTER,
+    IS_LOADING
+} from './types'
+import ApiClient from '../lib/api/ApiClient'
 
-// // Action creators
+// Action creators
 
-// export const selectSong = song => {
-//     // return action
-//     return {
-//         type: SONG_SELECT,
-//         payload: song
-//     }
-// }
+export const login = ({ email, password }) => async (dispatch, getState) => {
+    
+    try {
+        dispatch({ type: IS_LOADING, payload: true });
+    
+        const response = await ApiClient.post('/signin', { email, password });
+    
+        if (response.status !== 200) {
+            dispatch({
+                type: REQUEST_ERROR,
+                payload: {
+                    msg: response.data.msg,
+                    status: response.status
+                }
+            });
+        } else {
+            dispatch({ type: LOGIN, payload: response });
+        }
 
+        dispatch({ type: IS_LOADING, payload: false });
+
+    } catch (error) {
+        dispatch({ type: REQUEST_ERROR, payload: error });
+    }
+}
