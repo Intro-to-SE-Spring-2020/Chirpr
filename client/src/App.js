@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 
@@ -23,36 +23,44 @@ import useAuthStatus from './lib/hooks/useAuthStatus'
 
 function App (props) {
   const [logout, setLogout] = useState(false);
+  const [status, setStatus] = useState(true);
+  const isMounted = useRef(true)
   // const isAuthed = useAuthStatus(logout);
   
   const { auth } = props;
 
-  const status = () => {
-    const now = Date.now();
-    const authed = Date.parse(auth.expiry) > now;
+  // set isMounted to false when we unmount the component
+  useEffect(() => {
     if (!auth) {
       localStorage.clear();
-      return false;
+      setStatus(false);
+    } else {
+      const now = Date.now();
+      const authed = Date.parse(auth.expiry) > now;
+      if (!auth.profile) {
+        props.getUserProfile();
+      }
+      setStatus(true);
     }
-    if (!auth.profile) {
-      props.getUserProfile();
+    return () => {
+        isMounted.current = false
     }
-    return authed;
-  }
+  }, [props.location])
+
   
   const handleLogout = () => {
     setLogout(true)
-    if (!status())
+    if (!status)
       setLogout(false)
   }
 
   return (
       <div data-testid='app' className='App'>
-        <Navigation status={status()} handleLogout={handleLogout} />
+        <Navigation status={status} handleLogout={handleLogout} />
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
-          <PrivateRoute path='/create-profile' isAuthed={status()} exact component={() => <AuthPage register={false} login={false} createProfile />} />
-          <PrivateRoute path="/Feed" isAuthed={status()} exact component={Feed}/>
+          <PrivateRoute path='/create-profile' isAuthed={status} exact component={() => <AuthPage register={false} login={false} createProfile />} />
+          <PrivateRoute path="/Feed" isAuthed={status} exact component={Feed}/>
           <PrivateRoute path='/profile' exact component={() => <Profile />} />
           <Route exact path='/' component={Landing} />
           <Route path='/register' exact component={() => <AuthPage register login={false} createProfile={false} />} />
