@@ -2,6 +2,7 @@ import {
     LOGIN,
     LOGOUT,
     REGISTER,
+    GET_USER_PROFILE,
     IS_LOADING,
     REQUEST_ERROR
 } from './types'
@@ -38,5 +39,13 @@ export const login = (email, password) => async (dispatch, getState) => {
 
     } catch (error) {
         dispatch({ type: REQUEST_ERROR, payload: error });
+    }
+}
+
+export const getUserProfile = () => async (dispatch, getState) => {
+    try {
+
+    } catch (error) {
+        
     }
 }
