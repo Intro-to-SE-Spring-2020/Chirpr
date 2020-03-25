@@ -2,7 +2,8 @@
 import {
  LOGIN,
  LOGOUT,
- REGISTER
+ REGISTER,
+ GET_USER_PROFILE
 } from "../actions/types"
 
 // initial state
@@ -16,6 +17,8 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case LOGIN:
+            return { ...state, profile: action.payload }
+        case GET_USER_PROFILE:
             return { ...state, profile: action.payload }
         default:
             return state;
