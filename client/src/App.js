@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 
+import { getUserProfile } from './actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -20,13 +21,23 @@ import Profile from './pages/Profile/Profile'
 
 import useAuthStatus from './lib/hooks/useAuthStatus'
 
-function App ({ expiry }) {
+function App (props) {
   const [logout, setLogout] = useState(false);
   // const isAuthed = useAuthStatus(logout);
   
+  const { auth } = props;
+
   const status = () => {
     const now = Date.now();
-    return Date.parse(expiry) > now;
+    const authed = Date.parse(auth.expiry) > now;
+    if (!auth) {
+      localStorage.clear();
+      return false;
+    }
+    if (!auth.profile) {
+      props.getUserProfile();
+    }
+    return authed;
   }
   
   const handleLogout = () => {
@@ -54,7 +65,7 @@ function App ({ expiry }) {
 }
 
 const mapStateToProps = (state) => {
-  return { expiry: state.auth.expiry }
+  return { auth: state.auth }
 }
 
-export default withRouter(connect(mapStateToProps)(App))
+export default withRouter(connect(mapStateToProps, { getUserProfile })(App))
