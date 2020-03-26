@@ -4,8 +4,10 @@ import {
     REGISTER,
     GET_USER_PROFILE,
     IS_LOADING,
-    REQUEST_ERROR
+    REQUEST_ERROR,
+    REDIRECT_STATUS
 } from './types'
+import { persistor } from '../configureStore'
 import ApiClient from '../lib/api/ApiClient'
 
 // Action creators
@@ -21,25 +23,59 @@ export const login = (email, password) => async (dispatch, getState) => {
             dispatch({
                 type: REQUEST_ERROR,
                 payload: {
-                    msg: response.data.msg,
+                    msg: response.data.error,
                     status: response.status
                 }
             });
         } else {
-            // set token/expiry in local storage
-            localStorage.setItem('token', response.data.token);
+            // set token/expiry
             const expireDate = new Date();
             expireDate.setMinutes(expireDate.getMinutes() + 119);
-            localStorage.setItem('expiry', expireDate);
             // login user, saving user profile to store
-            dispatch({ type: LOGIN, payload: response.data.profile });
+            dispatch({
+                type: LOGIN, 
+                payload: {
+                    data: response.data,
+                    expiry: expireDate
+                }
+            });
         }
 
         dispatch({ type: IS_LOADING, payload: false });
 
+        if (response.data.profile !== null && response.data.profile._id) dispatch({ type: REDIRECT_STATUS, payload: '/feed' })
+        else dispatch({ type: REDIRECT_STATUS, payload: '/change-profile' })
+
     } catch (error) {
-        dispatch({ type: REQUEST_ERROR, payload: error });
+        dispatch({ type: REQUEST_ERROR,
+            payload: {
+                msg: error.response.data.error,
+                status: error.response.status
+            }
+        });
     }
+}
+
+export const logout = () => async (dispatch, getState) => {
+   try {
+
+    dispatch({ type: IS_LOADING, payload: true });
+    await persistor.purge();
+
+    dispatch({ type: LOGOUT });
+
+    dispatch({ type: IS_LOADING, payload: false });
+
+    dispatch({ type: REDIRECT_STATUS, payload: '/login' })
+
+   } catch (error) {
+    dispatch({ type: REQUEST_ERROR,
+        payload: {
+            msg: error.response.data.error,
+            status: error.response.status
+        }
+    });
+}
 }
 
 export const getUserProfile = () => async (dispatch, getState) => {
@@ -57,7 +93,7 @@ export const getUserProfile = () => async (dispatch, getState) => {
             dispatch({
                 type: REQUEST_ERROR,
                 payload: {
-                    msg: response.data.msg,
+                    msg: response.data.error,
                     status: response.status
                 }
             });
@@ -68,6 +104,18 @@ export const getUserProfile = () => async (dispatch, getState) => {
         dispatch({ type: IS_LOADING, payload: false });
 
     } catch (error) {
-        dispatch({ type: REQUEST_ERROR, payload: error });
+        dispatch({ type: REQUEST_ERROR,
+            payload: {
+                msg: error.response.data.msg,
+                status: error.response.status
+            }
+        });
+    }
+}
+
+export const redirect = (to) => {
+    return {
+        type: REDIRECT_STATUS,
+        payload: to
     }
 }
