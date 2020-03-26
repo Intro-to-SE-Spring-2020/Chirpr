@@ -1,18 +1,14 @@
 import React from 'react'
-import { Spinner, Container, Row, Col } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 
 
 const FullPageSpinner = ({
 }) => {
   return (
 
-    <Container>
-    <Row className="show-grid">
-        <Col xs={1} md={4}></Col>
-        <Col xs={4} md={4}><Spinner animation="border"/></Col>
-        <Col xs={1} md={4}></Col>
-    </Row>
-    </Container>
+    <div className="row justify-content-center align-items-center" style={{height: "100vh"}}>
+          <Spinner animation="border" style={{width: '4rem', height: '4rem'}}/>
+    </div>
 
   )
 }
