@@ -1,25 +1,29 @@
-import { useState, useEffect } from 'react'
-import { withCookies, useCookies } from 'react-cookie'
+import { useState, useEffect, useRef } from 'react'
+import { useSelector, shallowEqual } from 'react-redux'
 
-export default function useAuthStatus(logout) {
-    const [isAuthed, setIsAuthed] = useState(null);
-    const [cookies, setCookies, removeCookies] = useCookies();
+export default function useAuthStatus() {
+    const [status, setStatus] = useState(false);
+    const isMounted = useRef(true)
+    const { auth, network } = useSelector(state => state);
 
+    // set isMounted to false when we unmount the component
     useEffect(() => {
-        async function handleEffect() {
-            if (!logout) {
-                if (cookies["x-auth-token"]) {
-                    setIsAuthed(true)
-                } else {
-                    setIsAuthed(false)
-                }
-            } else {
-                removeCookies('x-auth-token')
-                setIsAuthed(false)
+        console.log('mount', status)
+        if (!network.is_loading && !network.request_error) {
+            if (auth.token && auth.expiry) {
+                const authed = Date.parse(auth.expiry) > Date.now();
+            if (authed) {
+                setStatus(true);
             }
+            else setStatus(false);
+            }
+            else setStatus(false);
         }
-        handleEffect()
-    }, [cookies["x-auth-token"], logout]);
+        return () => {
+            console.log('unmount', status)
+            isMounted.current = false
+        }
+    }, [auth, network])
     
-    return isAuthed;
+    return status;
 }

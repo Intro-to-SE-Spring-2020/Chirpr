@@ -58,10 +58,6 @@ exports.signin = async (req, res) => {
 
     // check for profile
     const profile = await Profile.findOne({ user: user.id })
-    if (!profile) 
-      hasProfile = false;
-    else
-      hasProfile = true;
 
     // create payload
     const payload = {
@@ -77,7 +73,7 @@ exports.signin = async (req, res) => {
       { expiresIn: '2h' },
       (err, token) => {
         if (err) throw err
-        res.json({ token, hasProfile })
+        res.json({ token, profile })
       }
     )
   } catch (err) {

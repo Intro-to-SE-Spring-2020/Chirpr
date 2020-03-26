@@ -34,7 +34,7 @@ function Profile(props) {
                 })
             })
             .catch((err) => {
-                props.history.push('/create-profile')
+                props.history.push('/change-profile')
             })
     }, [])
 
