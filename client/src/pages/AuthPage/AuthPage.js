@@ -7,16 +7,16 @@ import Registration from '../../components/LoginAndReg/Registration'
 import CreateProfile from '../../components/CreateProfile/CreateProfile'
 
 function AuthPage (props) {
-  const { login, register } = props
-
-  if (login) {
-    return <Login />
-  }
-  if (register) {
+  const { path, status } = props
+  
+  if (path == "/register") {
     return <Registration />
   }
-  if (CreateProfile) {
+  else if (path == "/change-profile") {
     return <CreateProfile/>
+  }
+  else {
+    return <Login status={status} />
   }
 }
 
