@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getUserProfile } from './actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -22,49 +21,29 @@ import Profile from './pages/Profile/Profile'
 import useAuthStatus from './lib/hooks/useAuthStatus'
 
 function App (props) {
-  const [logout, setLogout] = useState(false);
-  const [status, setStatus] = useState(true);
-  const isMounted = useRef(true)
-  // const isAuthed = useAuthStatus(logout);
   
-  const { auth } = props;
+  const { auth, network } = useSelector(state => state);
+  const dispatch = useDispatch();
 
-  // set isMounted to false when we unmount the component
-  useEffect(() => {
-    if (!auth) {
-      localStorage.clear();
-      setStatus(false);
-    } else {
-      const now = Date.now();
-      const authed = Date.parse(auth.expiry) > now;
-      if (!auth.profile) {
-        props.getUserProfile();
-      }
-      setStatus(true);
-    }
-    return () => {
-        isMounted.current = false
-    }
-  }, [props.location])
-
-  
-  const handleLogout = () => {
-    setLogout(true)
-    if (!status)
-      setLogout(false)
-  }
+  const status = useAuthStatus();
 
   return (
-      <div data-testid='app' className='App'>
-        <Navigation status={status} handleLogout={handleLogout} />
+    <div data-testid='app' className='App'>
+        <Navigation status={status} handleLogout={() => dispatch({ type: 'LOGOUT' })} />
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
-          <PrivateRoute path='/create-profile' isAuthed={status} exact component={() => <AuthPage register={false} login={false} createProfile />} />
-          <PrivateRoute path="/Feed" isAuthed={status} exact component={Feed}/>
-          <PrivateRoute path='/profile' exact component={() => <Profile />} />
           <Route exact path='/' component={Landing} />
-          <Route path='/register' exact component={() => <AuthPage register login={false} createProfile={false} />} />
-          <Route path='/login' exact component={() => <AuthPage register={false} login createProfile={false} />} />
+          <PrivateRoute status={status} path="/feed">
+            <Feed/>
+          </PrivateRoute>
+          <PrivateRoute status={status} path='/change-profile'>
+            <AuthPage path={"/change-profile"}/>
+          </PrivateRoute>
+          <PrivateRoute status={status} path='/profile'>
+            <Profile />
+          </PrivateRoute>>
+          <Route path='/login' component={() => <AuthPage status={status} path="/login" />} />
+          <Route path='/register' component={() => <AuthPage status={status} path="/register" />} />
           {/* Add all pages above the error page! -KRW */}
           <Route path='*' component={ErrorPage} />
         </Switch>
@@ -72,8 +51,4 @@ function App (props) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return { auth: state.auth }
-}
-
-export default withRouter(connect(mapStateToProps, { getUserProfile })(App))
+export default withRouter(App)
