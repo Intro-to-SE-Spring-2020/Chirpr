@@ -1,24 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import { CookiesProvider } from 'react-cookie'
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+import { PersistGate } from "redux-persist/lib/integration/react";
 
+import { history } from './lib/history'
+// import { history } from './lib/history'
+import { store, persistor } from './configureStore'
+// custom auth middleware
 import './index.css'
 import App from './App'
-import reducers from './reducers'
 
-const store = createStore(reducers, applyMiddleware(thunk));
+// const store = createStore(reducers, applyMiddleware(checkTokenExpiryMiddleware));
 
 ReactDOM.render(
 <Provider store={store}>
-    <Router>
-        <CookiesProvider>
-            <App />
-        </CookiesProvider>
-    </Router>
+    <PersistGate loading={null} persistor={persistor}>
+        <Router history={history}>
+            <CookiesProvider>
+                <App />
+            </CookiesProvider>
+        </Router>
+    </PersistGate>
 </Provider>, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
