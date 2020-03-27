@@ -26,8 +26,9 @@ export default (state = initialState, action) => {
                 expiry: action.payload.expiry
             }
         case LOGOUT:
-            // action.payload.history.push('/login') // PICk UP HERE!
             return { ...initialState }
+        case REGISTER:
+            return { ...state }
         case GET_USER_PROFILE:
             return { ...state, profile: action.payload }
         case REDIRECT_STATUS:

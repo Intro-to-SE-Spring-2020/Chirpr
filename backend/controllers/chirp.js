@@ -81,7 +81,7 @@ exports.createChirp = async (req, res) => {
       if (err) {
         console.log('Chirp Creation Error: ', err)
         return res.status(400).json({
-          errors: [{ msg: err }]
+          error: err
         })
       }
       res.json(chirp)
@@ -146,7 +146,7 @@ exports.likeOrUnlikeChirp = async (req, res) => {
           (err, data) => {
             if (err) {
               return res.status(400).json({
-                msg: err
+                error: err
               })
             } else {
               count -= 1;
@@ -166,7 +166,7 @@ exports.likeOrUnlikeChirp = async (req, res) => {
           (err, data) => {
             if (err) {
               return res.status(400).json({
-                msg: err
+                error: err
               })
             } else {
               count += 1;

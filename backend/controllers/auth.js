@@ -13,7 +13,7 @@ exports.signup = async (req, res) => {
     const user = await User.findOne({ email })
     if (user) {
       return res.status(400).json({
-        errors: [{ msg: 'Email is already in use' }]
+        error: 'Email is already in use'
       })
     }
 
@@ -25,7 +25,7 @@ exports.signup = async (req, res) => {
       if (err) {
         console.log('Registration Error: ', err)
         return res.status(400).json({
-          errors: [{ msg: err }]
+          error: err 
         })
       }
       res.json({
