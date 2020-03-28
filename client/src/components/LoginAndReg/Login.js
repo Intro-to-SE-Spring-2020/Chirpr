@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FormGroup, FormControl, FormLabel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { login, logout } from '../../actions/'
 
@@ -15,6 +16,14 @@ const Login = (props) => {
   const [error, setError] = useState('')
   const [success, setSuccess] = React.useState(false);
   const [msg, setMsg] = React.useState('');
+  const { request_error } = useSelector(state => state.network);
+
+  useEffect(() => {
+    if (request_error && request_error.error) {
+      setMsg(request_error.error)
+      setError(true);
+    }
+  }, [])
 
   function validateForm (props) {
     return email.length > 0 && password.length > 5
@@ -61,9 +70,4 @@ const Login = (props) => {
     </div>
   )
 }
-
-const mapStateToProps = (state) => {
-  return { auth: state.auth }
-}
-
-export default withRouter(connect(mapStateToProps, { login, logout })(Login))
+export default withRouter(connect(null, { login, logout })(Login))
