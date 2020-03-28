@@ -12,7 +12,7 @@ import ApiClient from '../lib/api/ApiClient'
 
 // Action creators
 
-export const login = (email, password) => async (dispatch, getState) => {
+export const login = (email, password) => async (dispatch) => {
     
     try {
         dispatch({ type: IS_LOADING, payload: true });
@@ -23,7 +23,7 @@ export const login = (email, password) => async (dispatch, getState) => {
             dispatch({
                 type: REQUEST_ERROR,
                 payload: {
-                    msg: response.data.error,
+                    error: response.data.error,
                     status: response.status
                 }
             });
@@ -49,14 +49,14 @@ export const login = (email, password) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                msg: error.response.data.error,
+                error: error.response.data.error,
                 status: error.response.status
             }
         });
     }
 }
 
-export const logout = () => async (dispatch, getState) => {
+export const logout = () => async (dispatch) => {
    try {
 
     dispatch({ type: IS_LOADING, payload: true });
@@ -69,13 +69,53 @@ export const logout = () => async (dispatch, getState) => {
     dispatch({ type: REDIRECT_STATUS, payload: '/login' })
 
    } catch (error) {
-    dispatch({ type: REQUEST_ERROR,
-        payload: {
-            msg: error.response.data.error,
-            status: error.response.status
-        }
-    });
+        dispatch({ type: REQUEST_ERROR,
+            payload: {
+                error: error.response.data.error,
+                status: error.response.status
+            }
+        });
+    }
 }
+
+export const register = (email, password) => async (dispatch) => {
+    try {
+
+        dispatch({ type: IS_LOADING, payload: true });
+
+        const response = await ApiClient.post('/signup', { email, password });
+
+        if (response.status !== 200) {
+            dispatch({
+                type: REQUEST_ERROR,
+                payload: {
+                    error: response.data.error,
+                    status: response.status
+                }
+            });
+            dispatch({ type: IS_LOADING, payload: false });
+
+            dispatch({ type: REDIRECT_STATUS, payload: '/register' })
+        } else {
+            // success
+            dispatch({ type: REGISTER, payload: response.data.error });
+
+            dispatch({ type: IS_LOADING, payload: false });
+
+            dispatch({ type: REDIRECT_STATUS, payload: '/login' })
+        }
+
+    } catch (error) {
+        dispatch({ type: REQUEST_ERROR,
+            payload: {
+                error: error.response.data.error,
+                status: error.response.status
+            }
+        });
+        dispatch({ type: IS_LOADING, payload: false });
+
+        dispatch({ type: REDIRECT_STATUS, payload: '/register' })
+    }
 }
 
 export const getUserProfile = () => async (dispatch, getState) => {
@@ -93,7 +133,7 @@ export const getUserProfile = () => async (dispatch, getState) => {
             dispatch({
                 type: REQUEST_ERROR,
                 payload: {
-                    msg: response.data.error,
+                    error: response.data.error,
                     status: response.status
                 }
             });
@@ -106,7 +146,7 @@ export const getUserProfile = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                msg: error.response.data.msg,
+                error: error.response.data.error,
                 status: error.response.status
             }
         });

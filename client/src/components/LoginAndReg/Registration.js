@@ -1,20 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Form,
   FormGroup,
   FormControl
 } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
-import axios from 'axios'
+import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
+import { register } from '../../actions/'
+
+import AlertMessage from '../AlertMessage/AlertMessage'
 import LoaderButton from '../../components/Buttons/LoaderButton'
 
 const Registration = (props) => {
   const [email, setEmail] = useState('')
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
-
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = React.useState(false);
+  const [msg, setMsg] = React.useState('');
+  const { request_error } = useSelector(state => state.network);
+
+  useEffect(() => {
+    if (request_error && request_error.error) {
+      setMsg(request_error.error)
+      setError(true);
+    }
+  }, [])
 
   function validateForm () {
     return (
@@ -27,32 +41,20 @@ const Registration = (props) => {
   function handleSubmit (event) {
     event.preventDefault()
 
-    setIsLoading(true)
-
-    // call api
-    axios({
-      method: 'post',
-      url: 'http://localhost:8000/api/signup',
-      data: {
-        email,
-        password: password1
-      }
-    })
-      .then((success) => {
-        props.history.push('/login')
-      })
-      .catch(err => {
-        console.log(err)
-        setEmail('')
-        setPassword1('')
-        setPassword2('')
-        setIsLoading(false)
-      })
+    props.register(email, password1);
   }
 
   function renderForm () {
     return (
       <form onSubmit={handleSubmit}>
+        <AlertMessage
+          success={success}
+          error={error}
+          msg={msg}
+          setSuccess={setSuccess}
+          setError={setError}
+          setMsg={setMsg}
+        />
         <FormGroup controlId='email' bsSize='large'>
           <Form.Label>Email</Form.Label>
           <FormControl
@@ -98,4 +100,4 @@ const Registration = (props) => {
   )
 }
 
-export default withRouter(Registration)
+export default withRouter(connect(null, { register })(Registration))

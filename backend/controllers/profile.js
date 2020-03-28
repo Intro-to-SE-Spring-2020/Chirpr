@@ -7,7 +7,7 @@ exports.getProfile = async (req, res) => {
     const profile = await Profile.findOne({ username: username })
     if (!profile) {
       return res.status(400).json({
-        msg: 'There is no profile for this username'
+        error: 'There is no profile for this username'
       })
     }
 
@@ -25,7 +25,7 @@ exports.getCurrentProfile = async (req, res) => {
     const profile = await Profile.findOne({ user })
     if (!profile) {
       return res.status(400).json({
-        msg: 'There is no profile for this username'
+        error: 'There is no profile for this username'
       })
     }
 
@@ -58,7 +58,7 @@ exports.createOrUpdateProfile = async (req, res) => {
       if (err) {
         console.log('Profile Creation Error: ', err)
         return res.status(400).json({
-          errors: [{ msg: err }]
+          error: err
         })
       }
       res.json(profile)
