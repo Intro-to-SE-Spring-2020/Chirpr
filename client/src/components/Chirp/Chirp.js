@@ -47,32 +47,12 @@ const Chirp = (props) => {
     
     // set isMounted to false when we unmount the component
     React.useEffect(() => {
-        setLikeCount(likes.length)
         if (isLiked) setLiked(true)
         else setLiked(false)
         return () => {
             isMounted.current = false
         }
     }, [])
-
-    const sendLikeRequest = React.useCallback(async () => {
-        // don't send again while we are sending
-        if (isLikeSending) return
-        // update state
-        setIsLikeSending(true)
-        // send the actual request
-        const {count, isLiked} = await props.handleLikeOrUnlike(_id)
-        // once the request is sent, update state again
-        if (isMounted.current) { // only update if we are still mounted
-            if (isLiked) {
-                setLiked(true)
-            } else if (!isLiked) {
-                setLiked(false)
-            }
-            setLikeCount(count)
-            setIsLikeSending(false)
-        } 
-    }, [isLikeSending]) // update the callback if the state changes
 
     const edit = () => {
         if (isOwned && !isEditing) {
@@ -149,16 +129,16 @@ const Chirp = (props) => {
     const likeButton = () => {
         if (!liked) {
             return (
-                <span onClick={sendLikeRequest} style={{cursor: 'pointer'}}>
+                <span onClick={() => props.handleLikeOrUnlike(_id)} style={{cursor: 'pointer'}}>
                     <Heart className="mr-2" style={{fontSize: '24px'}}/>
-                    {likeCount}
+                    {likes.length}
                 </span>
             )
         } else {
             return (
-                <span onClick={sendLikeRequest} style={{color: 'red', cursor: 'pointer'}}>
+                <span onClick={() => props.handleLikeOrUnlike(_id)} style={{color: 'red', cursor: 'pointer'}}>
                     <HeartFill className="mr-2" style={{color: 'red', fontSize: '24px'}}/>
-                    {likeCount}
+                    {likes.length}
                 </span>
             )
         }
