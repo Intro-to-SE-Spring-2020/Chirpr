@@ -7,16 +7,31 @@ import Registration from '../../components/LoginAndReg/Registration'
 import CreateProfile from '../../components/CreateProfile/CreateProfile'
 
 function AuthPage (props) {
-  const { path, status } = props
+  const { path } = props
   
   if (path == "/register") {
-    return <Registration />
+    return (
+      <>
+        <h1 className="mt-4 text-center">Register Account</h1>
+        <Registration/>
+      </>
+    )
   }
   else if (path == "/change-profile") {
-    return <CreateProfile/>
+    return (
+      <>
+        <h1 className="mt-4 text-center">Create Profile</h1>
+        <CreateProfile/>
+      </>
+    )
   }
   else {
-    return <Login status={status} />
+    return (
+      <>
+        <h1 className="mt-4 text-center">Login</h1>
+        <Login/>
+      </>
+    )
   }
 }
 
