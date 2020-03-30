@@ -2,32 +2,25 @@ import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { history } from '../history'
 
-export default function useAuthStatus() {
-    const [status, setStatus] = useState(false);
+export default function useStatus() {
+    const [status, setStatus] = useState(true);
     const isMounted = useRef(true)
-    const { auth, network } = useSelector(state => state)
+    const { auth } = useSelector(state => state)
     const dispatch = useDispatch()
 
     // set isMounted to false when we unmount the component
     useEffect(() => {
-        if (!network.is_loading && !network.request_error) {
-            if (auth.token && auth.expiry) {
-                const authed = Date.parse(auth.expiry) > Date.now();
-            if (authed) {
-                setStatus(true);
-            }
-            else setStatus(false);
-            }
-            else setStatus(false);
-        }
+        if (auth.token !== null) setStatus(true);
         return () => {
             isMounted.current = false
+            setStatus(false);
         }
-    }, [auth, network])
+    }, [auth, history.location.pathname])
 
     useEffect(() => {
         return () => {
             dispatch({ type: 'REQUEST_ERROR', payload: null })
+            dispatch({ type: 'REQUEST_SUCCESS', payload: null })
         }
     }, [history.location.pathname])
     
