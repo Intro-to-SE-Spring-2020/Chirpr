@@ -22,8 +22,8 @@ const Chirp = (props) => {
     const [showInput, setShowInput] = React.useState(false);
     const [isEditing, setEditing] = React.useState(false);
     const [liked, setLiked] = React.useState(false);
-    const [likeCount, setLikeCount] = React.useState(null)
-    const [isLikeSending, setIsLikeSending] = React.useState(false)
+    const [likeHover, setLikeHover] = React.useState(false);
+    const [reChirpHover, setReChirpHover] = React.useState(false);
     const inputRef = React.useRef(null);
     const isMounted = React.useRef(true)
 
@@ -116,6 +116,7 @@ const Chirp = (props) => {
         if (showInput) {
             return (
                 <FormControl
+                    as="textarea"
                     placeholder="Chirp cannot be empty!"
                     value={chirpContent}
                     onChange={(e) => setChirpContent(e.target.value)}
@@ -127,18 +128,53 @@ const Chirp = (props) => {
     }
     
     const likeButton = () => {
-        if (!liked) {
+        if (!liked && !likeHover) {
             return (
-                <span onClick={() => props.handleLikeOrUnlike(_id)} style={{cursor: 'pointer'}}>
+                <span
+                    onMouseEnter={() => setLikeHover(true)}
+                    onMouseLeave={() => setLikeHover(false)}
+                    onClick={() => props.handleLikeOrUnlike(_id)}
+                    style={{cursor: 'pointer'}}>
                     <Heart className="mr-2" style={{fontSize: '24px'}}/>
                     {likes.length}
                 </span>
             )
         } else {
             return (
-                <span onClick={() => props.handleLikeOrUnlike(_id)} style={{color: 'red', cursor: 'pointer'}}>
-                    <HeartFill className="mr-2" style={{color: 'red', fontSize: '24px'}}/>
+                <span
+                    onMouseEnter={() => setLikeHover(true)}
+                    onMouseLeave={() => setLikeHover(false)}
+                    onClick={() => props.handleLikeOrUnlike(_id)}
+                    style={{cursor: 'pointer'}}
+                    className="text-danger">
+                    <HeartFill className="mr-2 text-danger" style={{fontSize: '24px'}}/>
                     {likes.length}
+                </span>
+            )
+        }
+    }
+
+    const reChirpButton = () => {
+        if (!reChirpHover) {
+            return (
+                <span
+                    onMouseEnter={() => setReChirpHover(true)}
+                    onMouseLeave={() => setReChirpHover(false)}
+                    style={{cursor: 'pointer'}}
+                    className="ml-4">
+                    <ArrowRepeat style={{fontSize: '24px'}}/>
+                    ReChirp
+                </span>
+            )
+        } else {
+            return (
+                <span
+                    onMouseEnter={() => setReChirpHover(true)}
+                    onMouseLeave={() => setReChirpHover(false)}
+                    style={{cursor: 'pointer'}}
+                    className="ml-4 text-success">
+                    <ArrowRepeat className="text-success" style={{fontSize: '24px'}}/>
+                    ReChirp
                 </span>
             )
         }
@@ -173,10 +209,7 @@ const Chirp = (props) => {
                     {renderInput()}
                     <div className="pl-5">
                         {likeButton()}
-                        <span style={{cursor: 'pointer'}} className="ml-4">
-                            <ArrowRepeat style={{fontSize: '24px'}}/>
-                            ReChirp
-                        </span>
+                        {reChirpButton()}
                         {del()}
                     </div>
                 </Card.Body>
