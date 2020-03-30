@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Container,
   Row,
@@ -7,153 +7,75 @@ import {
   Image,
   Button
 } from 'react-bootstrap'
-import axios from 'axios';
-import Cookies from 'universal-cookie'
+import { useSelector, connect } from 'react-redux'
+import isEmpty from 'lodash';
+
+import {
+  readChirp,
+  createChirp,
+  updateChirp,
+  deleteChirp,
+  likeOrUnlikeChirp
+} from '../../actions'
 
 import ChirpInputForm from '../../components/ChirpInputForm/ChirpInputForm'
 import Chirp from '../../components/Chirp/Chirp'
 import AlertMessage from '../../components/AlertMessage/AlertMessage'
-import isEmpty from 'lodash'
 
 const  Feed = (props) => {
-  const [chirpFieldData, setChirpFieldData] = React.useState('');
-  const [chirpData, setChirpData] = React.useState(null);
-  const [loadNew, setLoadNew] = React.useState(false);
-  const [loadMore, setLoadMore] = React.useState(false);
+  const [chirpFieldData, setChirpFieldData] = useState('');
+  const [loadNew, setLoadNew] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [loadMore, setLoadMore] = useState(false);
   // loadMore will be used later to load 10 chirps at a time
   // then load more when user scrolls farther. Do this to cut down
   // on amount of data sent back to user at one time
-  const [success, setSuccess] = React.useState(false);
-  const [error, setError] = React.useState(false);
-  const [msg, setMsg] = React.useState('');
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [msg, setMsg] = useState('');
 
-  const cookie = new Cookies();
-  const token = cookie.get('x-auth-token');
+  const chirps = useSelector(state => state.chirps)
+  const request_error = useSelector(state => state.network.request_error)
+  const request_success = useSelector(state => state.network.request_success)
 
-  React.useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axios({
-          method: 'get',
-          url: 'http://localhost:8000/api/chirp',
-          headers: {
-            'x-auth-token': token
-          }
-        });
-        setChirpData(res.data.chirps);
-      } catch (err) {
-        setMsg(`${err.message}. Could not load Chirps! Try refreshing page.`)
-        setError(true)
-      }
+  useEffect(() => {
+    if (request_error && request_error.error) {
+      setMsg(request_error.error);
+      setError(true);
+      setChirpFieldData('');
     }
-    fetchData();
-  }, [loadNew, token])
-
-  const shareChirp = async () => {
-    try {
-      const res = await axios({
-        method: 'post',
-        url: 'http://localhost:8000/api/chirp',
-        data: {
-          content: chirpFieldData       
-        },
-        headers: {
-          'x-auth-token': token
-        }
-      });
-  
-      if (res.status === 200) {
-        setChirpFieldData('');
-        // setLoadNew(!loadNew)
-        setMsg('Chirp shared successfully.')
-        setSuccess(true)
-      }
-      else {
-        setMsg(`Status: ${res.status}. Could not share Chirp! Try refreshing page.`)
-        setError(true)
-      }
-    } catch (err) {
-      setMsg(`${err.message}. Could not share Chirp! Try refreshing page.`)
-      setError(true)
+    if (request_success && request_success.msg) {
+      setMsg(request_success.msg);
+      setSuccess(true);
     }
+  }, [request_success, request_error])
+
+  useEffect(() => {
+    if (!chirps.data || refresh) setLoadNew(true);
+    if (loadNew) {
+      props.readChirp();
+      setLoadNew(false);
+    }
+    return () => {
+      setLoadNew(true);
+    }
+  }, [loadNew])
+
+  const shareChirp = () => {
+    props.createChirp(chirpFieldData);
   }
 
-  const handleEdit = async (id, chirpContent) => {
-    try {
-      const res = await axios({
-          method: 'patch',
-          url: `http://localhost:8000/api/chirp/${id}`,
-          data: {
-            content: chirpContent       
-          },
-          headers: {
-            'x-auth-token': token
-          }
-      });
-
-      if (res.status === 200) {
-          const foundIndex = chirpData.findIndex(el => el._id === id)
-          let newData = chirpData
-          newData[foundIndex] = {
-            ...newData[foundIndex],
-            content: chirpContent
-          }
-          setChirpData(newData)
-          setMsg('Chirp updated successfully.')
-          setSuccess(true)
-      }
-      else {
-        setMsg(`Status: ${res.status}. Could not update Chirp! Try refreshing page.`)
-        setError(true)
-      }
-    } catch (err) {
-      setMsg(`${err.message}. Could not update Chirp! Try refreshing page.`)
-      setError(true)
-    }
+  const handleEdit = (id, chirpContent) => {
+    props.updateChirp(id, chirpContent);
   }
 
-  const handleDelete = async (id) => {
-    try {
-      const res = await axios({
-          method: 'delete',
-          url: `http://localhost:8000/api/chirp/${id}`,
-          headers: {
-            'x-auth-token': token
-          }
-      });
-      
-      if (res.status === 200) {
-          let newData = chirpData
-          newData = newData.filter(el => el._id !== id)
-          setChirpData(newData)
-          setMsg('Chirp deleted successfully.')
-          setSuccess(true)
-      }
-      else {
-        setMsg(`Status: ${res.status}. Could not delete Chirp! Try refreshing page.`)
-        setError(true)
-      }
-    } catch (err) {
-      setMsg(`${err.message}. Could not delete Chirp! Try refreshing page.`)
-      setError(true)
-    }
+  const handleDelete = (id) => {
+    props.deleteChirp(id);
   }
 
-  const handleLikeOrUnlike = async (id) => {
-      try {
-          const res = await axios({
-              method: 'patch',
-              url: `http://localhost:8000/api/chirp/${id}/likeorunlike`,
-              headers: {
-                'x-auth-token': token
-              }
-          });
-
-          if (res.status === 200) return res.data;
-          else return false;
-      } catch(err) {
-          return false;
-      }
+  const handleLikeOrUnlike = (id) => {
+      props.likeOrUnlikeChirp(id);
+      return { count: 0, isLiked: false }
 }
 
   const handleLoadingNew = () => {
@@ -161,9 +83,9 @@ const  Feed = (props) => {
   }
 
   const renderChirps = () => {
-    let chirps;
-    if (chirpData !== null) {
-      chirps = chirpData.map(chirp => {
+    let rendered;
+    if (chirps.data) {
+      rendered = chirps.data.map(chirp => {
         if (isEmpty(chirp)) {
           const { name, username, isOwned, content, likes, retweets, createdAt, isLiked, _id } = chirp;
           let now = new Date();
@@ -197,13 +119,13 @@ const  Feed = (props) => {
         } else {
           return (
             <h4 className="text-danger text-center">No chirps to display</h4>
-          )
-        }
-      })
-    }
+            )
+          }
+        })
+      }
     return (
       <>
-        {chirps}
+        {rendered}
       </>
     )
   }
@@ -309,4 +231,10 @@ const  Feed = (props) => {
   )
 };
 
-export default Feed
+export default connect(null, {
+  readChirp,
+  createChirp,
+  updateChirp,
+  deleteChirp,
+  likeOrUnlikeChirp
+})(Feed)
