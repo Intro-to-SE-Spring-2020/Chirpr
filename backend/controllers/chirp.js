@@ -22,9 +22,6 @@ exports.getChirps = async (req, res) => {
       // FIXME: potential bottleneck
       userProfile = await Profile.findOne({ user: elem.user })
 
-      const { first_name, last_name, username } = userProfile;
-      const name = `${first_name} ${last_name}`
-
       const {
         user,
         content,
@@ -35,18 +32,34 @@ exports.getChirps = async (req, res) => {
         _id
       } = elem
 
-      return {
-        _id,
-        name,
-        username,
-        user,
-        isOwned,
-        isLiked,
-        content,
-        retweets,
-        likes,
-        createdAt,
-        updatedAt
+      try {
+        const { first_name, last_name, username } = userProfile;;
+        const name = `${first_name} ${last_name}`;
+
+        return {
+          _id,
+          name,
+          username,
+          user,
+          isOwned,
+          isLiked,
+          content,
+          retweets,
+          likes,
+          createdAt,
+          updatedAt
+        }
+
+      } catch (err) {
+        return {
+          user,
+          content,
+          retweets,
+          likes,
+          createdAt,
+          updatedAt,
+          _id
+        }
       }
     })
     chirps = await Promise.all(result)
@@ -130,6 +143,7 @@ exports.deleteChirp = async (req, res) => {
 }
 
 exports.likeOrUnlikeChirp = async (req, res) => {
+  console.log(req.user)
   try {
     const { id } = req.params
     const { user } = req

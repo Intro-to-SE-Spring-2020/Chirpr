@@ -4,7 +4,8 @@ import {
  LOGOUT,
  REGISTER,
  GET_USER_PROFILE,
- REDIRECT_STATUS
+ REDIRECT_STATUS,
+ CHANGE_PROFILE
 } from "../actions/types"
 
 // initial state
@@ -27,12 +28,12 @@ export default (state = initialState, action) => {
             }
         case LOGOUT:
             return { ...initialState }
-        case REGISTER:
-            return { ...state }
         case GET_USER_PROFILE:
             return { ...state, profile: action.payload }
         case REDIRECT_STATUS:
             return { ...state, redirect: action.payload }
+        case CHANGE_PROFILE:
+            return { ...state, profile: action.payload }
         default:
             return state;
     }
