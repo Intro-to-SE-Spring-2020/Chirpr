@@ -22,12 +22,13 @@ const Chirp = (props) => {
     const [showInput, setShowInput] = React.useState(false);
     const [isEditing, setEditing] = React.useState(false);
     const [liked, setLiked] = React.useState(false);
+    const [reChirped, setReChirped] = React.useState(false);
     const [likeHover, setLikeHover] = React.useState(false);
     const [reChirpHover, setReChirpHover] = React.useState(false);
     const inputRef = React.useRef(null);
     const isMounted = React.useRef(true)
 
-    const { name, username, content, likes, retweets, time, isOwned, isLiked, _id } = props.data;
+    const { name, username, content, likes, retweets, time, isOwned, isLiked, isReChirped, _id } = props.data;
     
     React.useEffect(() => {
         if (isEditing) {
@@ -39,16 +40,12 @@ const Chirp = (props) => {
         }
     }, [isEditing, content])
     
-    React.useEffect(() => {
-        return function cleanup() {
-            setLiked(!liked)
-        }
-    }, [liked])
-    
     // set isMounted to false when we unmount the component
     React.useEffect(() => {
         if (isLiked) setLiked(true)
         else setLiked(false)
+        if (isReChirped) setReChirped(true)
+        else setReChirped(false)
         return () => {
             isMounted.current = false
         }
@@ -128,18 +125,7 @@ const Chirp = (props) => {
     }
     
     const likeButton = () => {
-        if (!liked && !likeHover) {
-            return (
-                <span
-                    onMouseEnter={() => setLikeHover(true)}
-                    onMouseLeave={() => setLikeHover(false)}
-                    onClick={() => props.handleLikeOrUnlike(_id)}
-                    style={{cursor: 'pointer'}}>
-                    <Heart className="mr-2" style={{fontSize: '24px'}}/>
-                    {likes.length}
-                </span>
-            )
-        } else {
+        if (liked || likeHover) {
             return (
                 <span
                     onMouseEnter={() => setLikeHover(true)}
@@ -151,19 +137,31 @@ const Chirp = (props) => {
                     {likes.length}
                 </span>
             )
+        } else {
+                return (
+                    <span
+                        onMouseEnter={() => setLikeHover(true)}
+                        onMouseLeave={() => setLikeHover(false)}
+                        onClick={() => props.handleLikeOrUnlike(_id)}
+                        style={{cursor: 'pointer'}}>
+                        <Heart className="mr-2" style={{fontSize: '24px'}}/>
+                        {likes.length}
+                    </span>
+                )
         }
     }
 
     const reChirpButton = () => {
-        if (!reChirpHover) {
+        if (reChirped || reChirpHover) {
             return (
                 <span
                     onMouseEnter={() => setReChirpHover(true)}
                     onMouseLeave={() => setReChirpHover(false)}
+                    onClick={() => props.handleReChirp(_id)}
                     style={{cursor: 'pointer'}}
-                    className="ml-4">
-                    <ArrowRepeat style={{fontSize: '24px'}}/>
-                    ReChirp
+                    className="ml-4 text-success">
+                    <ArrowRepeat className="text-success mr-2" style={{fontSize: '24px'}}/>
+                    {retweets.length > 0 ? retweets.length : ''}
                 </span>
             )
         } else {
@@ -171,19 +169,44 @@ const Chirp = (props) => {
                 <span
                     onMouseEnter={() => setReChirpHover(true)}
                     onMouseLeave={() => setReChirpHover(false)}
+                    onClick={() => props.handleReChirp(_id)}
                     style={{cursor: 'pointer'}}
-                    className="ml-4 text-success">
-                    <ArrowRepeat className="text-success" style={{fontSize: '24px'}}/>
-                    ReChirp
+                    className="ml-4">
+                    <ArrowRepeat className="mr-2" style={{fontSize: '24px'}}/>
+                    {retweets.length > 0 ? retweets.length : ''}
                 </span>
             )
         }
+    }
+
+    const likedBy = () => {
+        return liked ? (
+            <div className="ml-5 mb-3 w-100 text-muted">
+                <span style={{fontSize: '16px'}}>
+                    <HeartFill className="mr-2"/>
+                    You liked
+                </span>
+            </div>
+        ) : ''
+    }
+
+    const reChirpedBy = () => {
+        return reChirped ? (
+            <div className="ml-5 mb-3 w-100 text-muted">
+                <span style={{fontSize: '16px'}}>
+                    <ArrowRepeat className="text-muted mr-2"/>
+                    You ReChirped
+                </span>
+            </div>
+        ) : ''
     }
 
     return (
         <>
             <Card className={["shadow", props.className]}>
                 <Card.Body>
+                    {likedBy()}
+                    {reChirpedBy()}
                     <div className="mb-2" style={{position: 'relative'}}>
                         <Image style={{
                             position: 'absolute',

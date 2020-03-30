@@ -19,3 +19,4 @@ export const READ_CHIRP = "READ_CHIRP"; // get chirps
 export const UPDATE_CHIRP = "UPDATE_CHIRP";
 export const DELETE_CHIRP = "DELETE_CHIRP";
 export const LIKE_OR_UNLIKE = "LIKE_OR_UNLIKE";
+export const UPDATE_RECHIRP = "UPDATE_RECHIRP";

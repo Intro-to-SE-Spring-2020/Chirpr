@@ -4,7 +4,8 @@ import {
     READ_CHIRP,
     UPDATE_CHIRP,
     DELETE_CHIRP,
-    LIKE_OR_UNLIKE
+    LIKE_OR_UNLIKE,
+    UPDATE_RECHIRP
    } from "../actions/types"
    
    // initial state
