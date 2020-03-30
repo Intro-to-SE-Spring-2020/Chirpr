@@ -40,26 +40,12 @@ const Chirp = (props) => {
         }
     }, [isEditing, content])
     
-    React.useEffect(() => {
-        return function cleanup() {
-            setLiked(!liked)
-        }
-    }, [liked])
-
-    React.useEffect(() => {
-        return function cleanup() {
-            setReChirped(!reChirped)
-        }
-    }, [reChirped])
-    
     // set isMounted to false when we unmount the component
     React.useEffect(() => {
         if (isLiked) setLiked(true)
+        else setLiked(false)
         if (isReChirped) setReChirped(true)
-        else {
-            setLiked(false)
-            setReChirped(false)
-        }
+        else setReChirped(false)
         return () => {
             isMounted.current = false
         }
@@ -166,7 +152,6 @@ const Chirp = (props) => {
     }
 
     const reChirpButton = () => {
-        console.log(reChirped, reChirpHover)
         if (reChirped || reChirpHover) {
             return (
                 <span
@@ -176,7 +161,7 @@ const Chirp = (props) => {
                     style={{cursor: 'pointer'}}
                     className="ml-4 text-success">
                     <ArrowRepeat className="text-success mr-2" style={{fontSize: '24px'}}/>
-                    {retweets.length}
+                    {retweets.length > 0 ? retweets.length : ''}
                 </span>
             )
         } else {
@@ -194,10 +179,22 @@ const Chirp = (props) => {
         }
     }
 
+    const likedBy = () => {
+        return liked ? (
+            <div className="ml-5 mb-3 w-100 text-muted">
+                <span>
+                        <HeartFill className="mr-2" style={{fontSize: '16px'}}/>
+                        You liked
+                </span>
+            </div>
+        ) : ''
+    }
+
     return (
         <>
             <Card className={["shadow", props.className]}>
                 <Card.Body>
+                    {likedBy()}
                     <div className="mb-2" style={{position: 'relative'}}>
                         <Image style={{
                             position: 'absolute',
