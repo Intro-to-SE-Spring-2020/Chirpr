@@ -15,7 +15,8 @@ import {
   createChirp,
   updateChirp,
   deleteChirp,
-  likeOrUnlikeChirp
+  likeOrUnlikeChirp,
+  updateReChirp
 } from '../../actions'
 
 import ChirpInputForm from '../../components/ChirpInputForm/ChirpInputForm'
@@ -75,8 +76,11 @@ const  Feed = (props) => {
 
   const handleLikeOrUnlike = (id) => {
       props.likeOrUnlikeChirp(id);
-      return { count: 0, isLiked: false }
-}
+  }
+
+  const handleReChirp = (id) => {
+    props.updateReChirp(id);
+  }
 
   const handleLoadingNew = () => {
     setLoadNew(!loadNew)
@@ -87,7 +91,7 @@ const  Feed = (props) => {
     if (chirps.data) {
       rendered = chirps.data.map(chirp => {
         if (isEmpty(chirp)) {
-          const { name, username, isOwned, content, likes, retweets, createdAt, isLiked, _id } = chirp;
+          const { name, username, isOwned, content, likes, retweets, createdAt, isLiked, isReChirped, _id } = chirp;
           let now = new Date();
           let time = now - Date.parse(createdAt); // in ms
           time = Math.floor(time / 1000);
@@ -104,7 +108,7 @@ const  Feed = (props) => {
             time = Math.floor(time / (3600*24)); // to days
             time = time.toString() + 'd'
           }
-          const data = { name, username, content, likes, retweets, time, isOwned, isLiked, _id };
+          const data = { name, username, content, likes, retweets, time, isOwned, isLiked, isReChirped, _id };
           return (
             <Chirp
               className="mb-4"
@@ -113,6 +117,7 @@ const  Feed = (props) => {
               handleDelete={handleDelete}
               handleEdit={handleEdit}
               handleLikeOrUnlike={handleLikeOrUnlike}
+              handleReChirp={handleReChirp}
               key={_id}
             />
           )
@@ -236,5 +241,6 @@ export default connect(null, {
   createChirp,
   updateChirp,
   deleteChirp,
-  likeOrUnlikeChirp
+  likeOrUnlikeChirp,
+  updateReChirp
 })(Feed)
