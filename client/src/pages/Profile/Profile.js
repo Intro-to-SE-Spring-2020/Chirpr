@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Card from '../../components/profileCard/profileCard.js';
-import Cookies from 'universal-cookie'
 import { withRouter } from 'react-router-dom'
-import axios from 'axios'
+import { useSelector } from 'react-redux'
 import {Container, Row, Col } from "react-bootstrap";
 
 function Profile(props) {
@@ -11,41 +10,29 @@ function Profile(props) {
         username: '',
         first_name: '',
         last_name: ''
-    })
+    });
 
-    const cookies = new Cookies()
-    const token = cookies.get('x-auth-token')
+    const profile = useSelector(state => state.auth.profile);
 
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: 'http://localhost:8000/api/user/profile',
-            headers: {
-                'x-auth-token': token
-            }
-        })
-            .then((success) => {
-                const { username, first_name, last_name, bio } = success.data
-                setFields({
-                    username,
-                    first_name,
-                    last_name,
-                    bio
-                })
-            })
-            .catch((err) => {
-                props.history.push('/change-profile')
-            })
+        if (profile == null) props.history.push('/change-profile')
+        else {
+            const { first_name, last_name, username, bio } = profile;
+            setFields({ first_name, last_name, username, bio })
+        }
     }, [])
-
-    const { username, first_name, last_name, bio } = fields;
 
     return (
         <Container>
         <Row>
             <Col> </Col>
             <Col xs={6}>
-            <Card username={username} bio={bio} first={first_name} last={last_name} />
+            <Card
+                username={fields.username}
+                bio={fields.bio}
+                first={fields.first_name}
+                last={fields.last_name}
+            />
                 </Col>
             <Col> </Col>
         </Row>
