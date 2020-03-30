@@ -7,7 +7,8 @@ const {
     createChirp,
     editChirp,
     deleteChirp,
-    likeOrUnlikeChirp
+    likeOrUnlikeChirp,
+    updateReChirp
 } = require('../controllers/chirp')
 
 // import middleware
@@ -35,9 +36,14 @@ router.patch('/chirp/:id', auth, editChirp);
 // @access  Private
 router.delete('/chirp/:id', auth, deleteChirp);
 
-// @route   PATCH api/chirp/:id
+// @route   PATCH api/chirp/:id/likeorunlike
 // @dec     Like or Unlike a chirp
 // @access  Private
 router.patch('/chirp/:id/likeorunlike', auth, likeOrUnlikeChirp);
+
+// @route   PATCH api/chirp/:id/rechirp
+// @dec     ReChirp or remove ReChirp a chirp
+// @access  Private
+router.patch('/chirp/:id/rechirp', auth, updateReChirp);
 
 module.exports = router
