@@ -11,13 +11,16 @@ exports.getChirps = async (req, res) => {
 
     const result = chirps.map(async elem => {
       
-      let isOwned = false
-      let isLiked = false
+      let isOwned = false;
+      let isLiked = false;
+      let isReChirped = false;
       const reqUser = req.user.toString()
       const elemUser = elem.user.toString()
       const elemLike = elem.likes.filter(like => like == reqUser)
+      const elemReChirp = elem.retweets.filter(retweet => retweet == reqUser)
       if (reqUser === elemUser) isOwned = true
       if (elemLike.length > 0) isLiked = true
+      if (elemReChirp.length > 0) isReChirped = true
       
       // FIXME: potential bottleneck
       userProfile = await Profile.findOne({ user: elem.user })
@@ -43,6 +46,7 @@ exports.getChirps = async (req, res) => {
           user,
           isOwned,
           isLiked,
+          isReChirped,
           content,
           retweets,
           likes,
@@ -143,7 +147,6 @@ exports.deleteChirp = async (req, res) => {
 }
 
 exports.likeOrUnlikeChirp = async (req, res) => {
-  console.log(req.user)
   try {
     const { id } = req.params
     const { user } = req
@@ -188,6 +191,64 @@ exports.likeOrUnlikeChirp = async (req, res) => {
                 msg: 'liked',
                 count,
                 isLiked
+              })
+            }
+          }
+        )
+      }
+
+    }
+
+  } catch (err) {
+    res.status(500).send('Server error')
+  }
+}
+
+exports.updateReChirp = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { user } = req
+
+    const chirp = await Chirp.findById(id, "retweets");
+
+    if (chirp) {
+      let count = chirp.retweets.length;
+      let isReChirped = false;
+      if (chirp.retweets.includes(user)) {
+        // remove rechirp the chirp
+        chirp.update(
+          { $pull: { retweets: user } },
+          (err, data) => {
+            if (err) {
+              return res.status(400).json({
+                error: err
+              })
+            } else {
+              count -= 1;
+              return res.status(200).json({
+                msg: 'Removed ReChirp!',
+                count,
+                isReChirped
+              })
+            }
+          }
+        )
+      } else {
+        // rechirp the chirp
+        isReChirped = true;
+        chirp.update(
+          { $push: { retweets: user } },
+          (err, data) => {
+            if (err) {
+              return res.status(400).json({
+                error: err
+              })
+            } else {
+              count += 1;
+              return res.status(200).json({
+                msg: 'ReChirped',
+                count,
+                isReChirped
               })
             }
           }
