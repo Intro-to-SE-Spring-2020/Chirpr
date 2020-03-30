@@ -182,9 +182,20 @@ const Chirp = (props) => {
     const likedBy = () => {
         return liked ? (
             <div className="ml-5 mb-3 w-100 text-muted">
-                <span>
-                        <HeartFill className="mr-2" style={{fontSize: '16px'}}/>
-                        You liked
+                <span style={{fontSize: '16px'}}>
+                    <HeartFill className="mr-2"/>
+                    You liked
+                </span>
+            </div>
+        ) : ''
+    }
+
+    const reChirpedBy = () => {
+        return reChirped ? (
+            <div className="ml-5 mb-3 w-100 text-muted">
+                <span style={{fontSize: '16px'}}>
+                    <ArrowRepeat className="text-muted mr-2"/>
+                    You ReChirped
                 </span>
             </div>
         ) : ''
@@ -195,6 +206,7 @@ const Chirp = (props) => {
             <Card className={["shadow", props.className]}>
                 <Card.Body>
                     {likedBy()}
+                    {reChirpedBy()}
                     <div className="mb-2" style={{position: 'relative'}}>
                         <Image style={{
                             position: 'absolute',
