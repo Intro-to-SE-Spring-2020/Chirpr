@@ -12,7 +12,8 @@ import {
     DELETE_CHIRP,
     REQUEST_SUCCESS,
     LIKE_OR_UNLIKE,
-    CHANGE_PROFILE
+    CHANGE_PROFILE,
+    UPDATE_RECHIRP
 } from './types'
 import { persistor } from '../configureStore'
 import ApiClient from '../lib/api/ApiClient'
@@ -377,6 +378,39 @@ export const likeOrUnlikeChirp = (id) => async (dispatch, getState) => {
             dispatch({ type: LIKE_OR_UNLIKE, payload: response.data })
             dispatch(readChirp());
             dispatch({ type: REQUEST_SUCCESS, payload: { msg: `Chirp ${response.data.msg}!` }})
+        }
+        
+    } catch (error) {
+        dispatch({ type: REQUEST_ERROR,
+            payload: {
+                error: error.response.data.error
+            }
+        });
+        dispatch({ type: IS_LOADING, payload: false });
+    }
+}
+
+export const updateReChirp = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: IS_LOADING, payload: true });
+        const token = getState().auth.token;
+        const response = await ApiClient.patch(`/chirp/${id}/rechirp`,
+            null, { headers: {
+                'x-auth-token': token
+            }});
+            
+        if (response.status !== 200) {
+            dispatch({
+                type: REQUEST_ERROR,
+                payload: {
+                    error: response.data.error
+                }
+            });
+
+        } else {
+            dispatch({ type: UPDATE_RECHIRP, payload: response.data })
+            dispatch(readChirp());
+            dispatch({ type: REQUEST_SUCCESS, payload: { msg: `${response.data.msg}!` }})
         }
         
     } catch (error) {
