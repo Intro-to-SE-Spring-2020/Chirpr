@@ -17,6 +17,8 @@ import Feed from './pages/Feed/Feed';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage'
 import Profile from './pages/Profile/Profile'
+//import components
+import FullPageSpinner from './components/FullPageSpinner/FullPageSpinner.js'
 
 import useAuthStatus from './lib/hooks/useAuthStatus'
 
@@ -27,7 +29,15 @@ function App (props) {
 
   const status = useAuthStatus();
 
-  return (
+  if (network.is_loading) {
+    return (
+    <>
+      <Navigation status={status} handleLogout={() => dispatch({ type : 'LOGOUT'})} />
+      <FullPageSpinner/>
+    </>
+    )
+  } else {
+    return (
     <div data-testid='app' className='App'>
         <Navigation status={status} handleLogout={() => dispatch({ type: 'LOGOUT' })} />
         <Switch>
@@ -48,7 +58,8 @@ function App (props) {
           <Route path='*' component={ErrorPage} />
         </Switch>
       </div>
-  )
+    )
+  }
 }
 
 export default withRouter(App)
