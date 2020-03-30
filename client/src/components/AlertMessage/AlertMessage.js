@@ -14,6 +14,7 @@ const AlertMessage = (props) => {
           onClose={() => {
             setSuccess(false)
             setMsg('')
+            dispatch({ type: 'REQUEST_SUCCESS', payload: null })
           }}
         >
           {msg}
