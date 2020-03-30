@@ -35,6 +35,7 @@ const  Feed = (props) => {
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState('');
 
+  const profile = useSelector(state => state.auth.profile)
   const chirps = useSelector(state => state.chirps)
   const request_error = useSelector(state => state.network.request_error)
   const request_success = useSelector(state => state.network.request_success)
@@ -118,6 +119,7 @@ const  Feed = (props) => {
               handleEdit={handleEdit}
               handleLikeOrUnlike={handleLikeOrUnlike}
               handleReChirp={handleReChirp}
+              currUser={profile}
               key={_id}
             />
           )
