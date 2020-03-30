@@ -361,23 +361,34 @@ export const likeOrUnlikeChirp = (id) => async (dispatch, getState) => {
     try {
         dispatch({ type: IS_LOADING, payload: true });
         const token = getState().auth.token;
-        const response = await ApiClient.patch(`/chirp/${id}/likeorunlike`,
-            null, { headers: {
-                'x-auth-token': token
-            }});
-            
-        if (response.status !== 200) {
+
+        if (getState().auth.profile == null) {
             dispatch({
                 type: REQUEST_ERROR,
                 payload: {
-                    error: response.data.error
+                    error: "Your profile isn't created yet! Click 'My Profile' above."
                 }
             });
-
+            dispatch({ type: IS_LOADING, payload: false });
         } else {
-            dispatch({ type: LIKE_OR_UNLIKE, payload: response.data })
-            dispatch(readChirp());
-            dispatch({ type: REQUEST_SUCCESS, payload: { msg: `Chirp ${response.data.msg}!` }})
+            const response = await ApiClient.patch(`/chirp/${id}/likeorunlike`,
+                null, { headers: {
+                    'x-auth-token': token
+                }});
+                
+            if (response.status !== 200) {
+                dispatch({
+                    type: REQUEST_ERROR,
+                    payload: {
+                        error: response.data.error
+                    }
+                });
+
+            } else {
+                dispatch({ type: LIKE_OR_UNLIKE, payload: response.data })
+                dispatch(readChirp());
+                dispatch({ type: REQUEST_SUCCESS, payload: { msg: `Chirp ${response.data.msg}!` }})
+            }
         }
         
     } catch (error) {
@@ -394,23 +405,34 @@ export const updateReChirp = (id) => async (dispatch, getState) => {
     try {
         dispatch({ type: IS_LOADING, payload: true });
         const token = getState().auth.token;
-        const response = await ApiClient.patch(`/chirp/${id}/rechirp`,
-            null, { headers: {
-                'x-auth-token': token
-            }});
-            
-        if (response.status !== 200) {
+
+        if (getState().auth.profile == null) {
             dispatch({
                 type: REQUEST_ERROR,
                 payload: {
-                    error: response.data.error
+                    error: "Your profile isn't created yet! Click 'My Profile' above."
                 }
             });
-
+            dispatch({ type: IS_LOADING, payload: false });
         } else {
-            dispatch({ type: UPDATE_RECHIRP, payload: response.data })
-            dispatch(readChirp());
-            dispatch({ type: REQUEST_SUCCESS, payload: { msg: `${response.data.msg}!` }})
+            const response = await ApiClient.patch(`/chirp/${id}/rechirp`,
+                null, { headers: {
+                    'x-auth-token': token
+                }});
+                
+            if (response.status !== 200) {
+                dispatch({
+                    type: REQUEST_ERROR,
+                    payload: {
+                        error: response.data.error
+                    }
+                });
+
+            } else {
+                dispatch({ type: UPDATE_RECHIRP, payload: response.data })
+                dispatch(readChirp());
+                dispatch({ type: REQUEST_SUCCESS, payload: { msg: `${response.data.msg}!` }})
+            }
         }
         
     } catch (error) {
