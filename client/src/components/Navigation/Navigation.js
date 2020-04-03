@@ -16,7 +16,7 @@ const Navigation = (props) => {
             <Link className="nav-link" to="/feed">Feed</Link>
           </Nav>
           <Nav>
-            <Link className='nav-link' onClick={props.handleLogout}>Logout</Link>
+            <a className='nav-link' onClick={props.handleLogout}>Logout</a>
           </Nav>
         </Navbar>
       )
