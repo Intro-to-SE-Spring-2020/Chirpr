@@ -4,7 +4,6 @@ import {
   FormGroup,
   FormControl
 } from 'react-bootstrap'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { useSelector } from 'react-redux'
 
@@ -55,7 +54,7 @@ const Registration = (props) => {
           setError={setError}
           setMsg={setMsg}
         />
-        <FormGroup controlId='email' bsSize='large'>
+        <FormGroup controlId='email'>
           <Form.Label>Email</Form.Label>
           <FormControl
             autoFocus
@@ -64,7 +63,7 @@ const Registration = (props) => {
             onChange={(event) => setEmail(event.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId='password' bsSize='large'>
+        <FormGroup controlId='password'>
           <Form.Label>Password</Form.Label>
           <FormControl
             type='password'
@@ -72,7 +71,7 @@ const Registration = (props) => {
             onChange={(event) => setPassword1(event.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId='confirmPassword' bsSize='large'>
+        <FormGroup controlId='confirmPassword'>
           <Form.Label>Confirm Password</Form.Label>
           <FormControl
             type='password'
@@ -82,8 +81,8 @@ const Registration = (props) => {
         </FormGroup>
         <LoaderButton
           block
+          data-testid="submit-button"
           type='submit'
-          bsSize='large'
           isLoading={isLoading}
           disabled={!validateForm()}
         >
@@ -100,4 +99,4 @@ const Registration = (props) => {
   )
 }
 
-export default withRouter(connect(null, { register })(Registration))
+export default connect(null, { register })(Registration)
