@@ -27,15 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test-coverage": "npm test -- --coverage",
+    "test-coverage": "npm test -- --coverage --watchAll=false --coveragePathIgnorePatterns=lib",
     "eject": "react-scripts eject"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!src/lib/test-utils/index.js"
-    ]
   },
   "eslintConfig": {
     "extends": "react-app"
