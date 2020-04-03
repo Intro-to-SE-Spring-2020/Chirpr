@@ -27,14 +27,7 @@ export const login = (email, password) => async (dispatch) => {
     
         const response = await ApiClient.post('/signin', { email, password });
     
-        if (response.status !== 200) {
-            dispatch({
-                type: REQUEST_ERROR,
-                payload: {
-                    error: response.data.error
-                }
-            });
-        } else {
+        if (response.status == 200) {
             // set token/expiry
             const expireDate = new Date();
             expireDate.setMinutes(expireDate.getMinutes() + 119);
@@ -54,7 +47,6 @@ export const login = (email, password) => async (dispatch) => {
         else dispatch({ type: REDIRECT_STATUS, payload: '/change-profile' })
 
     } catch (error) {
-        console.log(error)
         dispatch({ type: REQUEST_ERROR,
             payload: {
                 error: error.response.data.error
@@ -93,17 +85,7 @@ export const register = (email, password) => async (dispatch) => {
 
         const response = await ApiClient.post('/signup', { email, password });
 
-        if (response.status !== 200) {
-            dispatch({
-                type: REQUEST_ERROR,
-                payload: {
-                    error: response.data.error
-                }
-            });
-            dispatch({ type: IS_LOADING, payload: false });
-
-            dispatch({ type: REDIRECT_STATUS, payload: '/register' })
-        } else {
+        if (response.status == 200) {
             // success
             dispatch({ type: REQUEST_SUCCESS, payload: response.data.msg });
 
@@ -138,14 +120,7 @@ export const getUserProfile = () => async (dispatch, getState) => {
             }
         );
 
-        if (response.status !== 200) {
-            dispatch({
-                type: REQUEST_ERROR,
-                payload: {
-                    error: response.data.error
-                }
-            });
-        } else {
+        if (response.status == 200) {
             dispatch({ type: GET_USER_PROFILE, payload: response.data });
         }
 
@@ -180,14 +155,7 @@ export const changeProfile = (data) => async (dispatch, getState) => {
                 }}
         );
     
-        if (response.status !== 200) {
-            dispatch({
-                type: REQUEST_ERROR,
-                payload: {
-                    error: response.data.error
-                }
-            });
-        } else {
+        if (response.status == 200) {
             dispatch({ type: CHANGE_PROFILE, payload: response.data });
             dispatch({ type: REDIRECT_STATUS, payload: '/profile' });
         }
@@ -216,14 +184,7 @@ export const readChirp = () => async (dispatch, getState) => {
             }
         );
     
-        if (response.status !== 200) {
-            dispatch({
-                type: REQUEST_ERROR,
-                payload: {
-                    error: response.data.error
-                }
-            });
-        } else {
+        if (response.status == 200) {
             dispatch({ type: READ_CHIRP, payload: response.data.chirps });
         }
 
@@ -260,16 +221,7 @@ export const createChirp = (content) => async (dispatch, getState) => {
                 }}
             );
     
-            if (response.status !== 200) {
-                dispatch({
-                    type: REQUEST_ERROR,
-                    payload: {
-                        error: response.data.error
-                    }
-                });
-                dispatch({ type: IS_LOADING, payload: false });
-    
-            } else {
+            if (response.status == 200) {
                 dispatch({ type: CREATE_CHIRP, payload: response.data })
                 dispatch(readChirp());
                 dispatch({ type: REQUEST_SUCCESS, payload: { msg: "Chirp created!" }})
@@ -298,16 +250,7 @@ export const updateChirp = (id, content) => async (dispatch, getState) => {
                 'x-auth-token': getState().auth.token
             }});
 
-        if (response.status !== 200) {
-            dispatch({
-                type: REQUEST_ERROR,
-                payload: {
-                    error: response.data.error
-                }
-            });
-            dispatch({ type: IS_LOADING, payload: false });
-
-        } else {
+        if (response.status == 200) {
             dispatch({ type: UPDATE_CHIRP, payload: response.data })
             dispatch(readChirp());
             dispatch({ type: REQUEST_SUCCESS, payload: { msg: "Chirp updated!" }})
@@ -333,15 +276,7 @@ export const deleteChirp = (id) => async (dispatch, getState) => {
                 'x-auth-token': getState().auth.token
             }});
 
-        if (response.status !== 200) {
-            dispatch({
-                type: REQUEST_ERROR,
-                payload: {
-                    error: response.data.error
-                }
-            });
-
-        } else {
+        if (response.status == 200) {
             dispatch({ type: DELETE_CHIRP, payload: response.data })
             dispatch(readChirp());
             dispatch({ type: REQUEST_SUCCESS, payload: { msg: "Chirp deleted!" }})
@@ -376,15 +311,7 @@ export const likeOrUnlikeChirp = (id) => async (dispatch, getState) => {
                     'x-auth-token': token
                 }});
                 
-            if (response.status !== 200) {
-                dispatch({
-                    type: REQUEST_ERROR,
-                    payload: {
-                        error: response.data.error
-                    }
-                });
-
-            } else {
+            if (response.status == 200) {
                 dispatch({ type: LIKE_OR_UNLIKE, payload: response.data })
                 dispatch(readChirp());
                 dispatch({ type: REQUEST_SUCCESS, payload: { msg: `Chirp ${response.data.msg}!` }})
@@ -420,15 +347,7 @@ export const updateReChirp = (id) => async (dispatch, getState) => {
                     'x-auth-token': token
                 }});
                 
-            if (response.status !== 200) {
-                dispatch({
-                    type: REQUEST_ERROR,
-                    payload: {
-                        error: response.data.error
-                    }
-                });
-
-            } else {
+            if (response.status == 200) {
                 dispatch({ type: UPDATE_RECHIRP, payload: response.data })
                 dispatch(readChirp());
                 dispatch({ type: REQUEST_SUCCESS, payload: { msg: `${response.data.msg}!` }})
