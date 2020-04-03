@@ -16,10 +16,10 @@ function App () {
     <div data-testid='landing' className='App'>
       <header className="d-flex flex-column align-items-center justify-content-center text-white" style={styles.header}>
         <HomepageImage />
-        <p>
+        <p data-testid="landing-welcome">
           Welcome to Chirpr!
         </p>
-        <p>
+        <p data-testid="landing-join">
           Join the Chirpr community and chirp away!
         </p>
       </header>
