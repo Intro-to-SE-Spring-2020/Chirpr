@@ -25,5 +25,6 @@ jobs:
         cd client
         npm ci
         npm test
+        npm run test-coverage
       env:
         CI: true
