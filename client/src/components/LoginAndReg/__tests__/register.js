@@ -9,6 +9,7 @@ afterAll(() => {
   jest.restoreAllMocks();
 });
 
+// Registration component test Suite begins here.
 describe('Registration React-Redux Component', () => {
     let spy;
     
