@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { history } from '../history'
 
 export default function useStatus() {
-    const [status, setStatus] = useState(true);
+    const [status, setStatus] = useState(false);
     const isMounted = useRef(true)
     const { auth } = useSelector(state => state)
     const dispatch = useDispatch()
