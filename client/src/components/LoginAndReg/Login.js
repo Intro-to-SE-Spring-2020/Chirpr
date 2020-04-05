@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { FormGroup, FormControl, FormLabel } from 'react-bootstrap'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { useSelector } from 'react-redux'
 
-import { login, logout } from '../../actions/'
+import { login } from '../../actions/'
 
 import LoaderButton from '../Buttons/LoaderButton'
 import AlertMessage from '../AlertMessage/AlertMessage'
@@ -46,7 +45,7 @@ const Login = (props) => {
           setError={setError}
           setMsg={setMsg}
         />
-        <FormGroup controlId='email' bsSize='large'>
+        <FormGroup controlId='email'>
           <FormLabel>Email</FormLabel>
           <FormControl
             autoFocus
@@ -55,7 +54,7 @@ const Login = (props) => {
             onChange={e => setEmail(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId='password' bsSize='large'>
+        <FormGroup controlId='password'>
           <FormLabel>Password</FormLabel>
           <FormControl
             value={password}
@@ -63,11 +62,11 @@ const Login = (props) => {
             type='password'
           />
         </FormGroup>
-        <LoaderButton block type='submit' bsSize='large' isLoading={isLoading} disabled={!validateForm()}>
+        <LoaderButton data-testid="submit-button" block type='submit' isLoading={isLoading} disabled={!validateForm()}>
             Login
         </LoaderButton>
       </form>
     </div>
   )
 }
-export default withRouter(connect(null, { login, logout })(Login))
+export default connect(null, { login })(Login)
