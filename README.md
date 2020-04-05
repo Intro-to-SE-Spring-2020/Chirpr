@@ -1,5 +1,7 @@
 # Chirpr
 
+[![Build Status](https://travis-ci.org/Intro-to-SE-Spring-2020/Chirpr.svg?branch=master)](https://travis-ci.org/Intro-to-SE-Spring-2020/Chirpr) [![Coverage Status](https://coveralls.io/repos/github/Intro-to-SE-Spring-2020/Chirpr/badge.svg?branch=master)](https://coveralls.io/github/Intro-to-SE-Spring-2020/Chirpr?branch=master)
+
 | Name | GitHub Username | Role
 | --- | --- | --- |
 | Pranay Marella | pranmar123 | Project Manager
