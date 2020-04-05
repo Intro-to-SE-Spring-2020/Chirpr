@@ -9,6 +9,7 @@ afterAll(() => {
   jest.restoreAllMocks();
 });
 
+// Registration component test Suite begins here.
 describe('Registration React-Redux Component', () => {
     let spy;
     
@@ -17,7 +18,7 @@ describe('Registration React-Redux Component', () => {
         mockAxios.mockClear();
     });
     
-    const setup = () => {
+    const setup = (state = null) => {
         // set to check if network POST request was
         // ... executed/intercepted
         spy = jest.spyOn(mockAxios, "post");
@@ -25,7 +26,7 @@ describe('Registration React-Redux Component', () => {
         // fake user info to send to mocked API request
         const user = { fakeEmail: 'testcase@chirpr.com', fakePassword: 'testcase', fakePassword1: 'testcase' };
         // render component with custom render function
-        const component = renderWithRedux(<Registration/>);
+        const component = renderWithRedux(<Registration/>, { initialState: state });
         // destructure attributes from component
         const { getByLabelText, getByTestId, store } = component;
         
@@ -58,7 +59,7 @@ describe('Registration React-Redux Component', () => {
         }
     }
     
-    // TEST CASE: Successful registration
+    // TEST CASE 1: Successful registration
     test('registers user with valid email and valid password', async () => {
         // intercept network POST requests for registration
         mockAxios.post.mockImplementationOnce(() => 
@@ -124,7 +125,7 @@ describe('Registration React-Redux Component', () => {
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    // TEST CASE: Invalid registration
+    // TEST CASE 2: Invalid registration
     test('register user with email already in use and valid password', async () => {
         // intercept network POST request
         // ... NOTE the Promise.reject portion
@@ -192,6 +193,41 @@ describe('Registration React-Redux Component', () => {
 
         // Test that these actions were dispatched
         expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    // TEST CASE 3: Invalid Request Error when component mounts
+    // ... This would happen when a user tries to register
+    // ... with an email that is already in use.
+    test('display request error after registering with email already in use', () => {
+
+        // Set initial state to reproduce user 
+        // ... inputting an email already in use
+        // ... useEffect will be triggered to display
+        // .. alert message to user
+        const initialState = {
+            network: {
+                request_error: {
+                    error: "Registration Error: Email already exists"
+                }
+            }
+        }
+
+        /*
+            NOTE: User input is not necessary b/c
+                  if a user input an email already in use,
+                  the component will be re-rendered with 
+                  above initial state
+        */
+
+        // setup with initial state
+        const component = setup(initialState);
+
+        // grab alert message on screen
+        const alert = component.getByTestId('alert-error');
+
+        // check that the message shown to user
+        // ... is the network request error message
+        expect(alert.textContent).toEqual(initialState.network.request_error.error);
     });
 
   });

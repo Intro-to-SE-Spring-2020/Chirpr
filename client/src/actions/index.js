@@ -49,7 +49,7 @@ export const login = (email, password) => async (dispatch) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -71,7 +71,7 @@ export const logout = () => async (dispatch) => {
    } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -97,7 +97,7 @@ export const register = (email, password) => async (dispatch) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error" 
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -129,7 +129,7 @@ export const getUserProfile = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -165,7 +165,7 @@ export const changeProfile = (data) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -193,7 +193,7 @@ export const readChirp = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -232,7 +232,7 @@ export const createChirp = (content) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -259,7 +259,7 @@ export const updateChirp = (id, content) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -285,7 +285,7 @@ export const deleteChirp = (id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -321,7 +321,7 @@ export const likeOrUnlikeChirp = (id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });
@@ -357,7 +357,7 @@ export const updateReChirp = (id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({ type: REQUEST_ERROR,
             payload: {
-                error: error.response.data.error
+                error: error.response ? error.response.data.error : "Network Error"
             }
         });
         dispatch({ type: IS_LOADING, payload: false });

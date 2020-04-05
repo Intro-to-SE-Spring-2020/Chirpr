@@ -17,7 +17,7 @@ const AlertMessage = (props) => {
             dispatch({ type: 'REQUEST_SUCCESS', payload: null })
           }}
         >
-          {msg}
+          <p data-testid="alert-success">{msg}</p>
         </Alert>
       )
     }
@@ -32,7 +32,7 @@ const AlertMessage = (props) => {
             dispatch({ type: 'REQUEST_ERROR', payload: null })
           }}
         >
-          {msg}
+          <p data-testid="alert-error">{msg}</p>
         </Alert>
       )
     }
