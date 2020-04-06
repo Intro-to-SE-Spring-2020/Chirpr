@@ -16,7 +16,7 @@ const Login = (props) => {
   const [success, setSuccess] = useState(false);
   const [msg, setMsg] = useState('');
   const { request_error } = useSelector(state => state.network);
-
+// REMOVE LATER
   useEffect(() => {
     if (request_error && request_error.error) {
       setMsg(request_error.error)
