@@ -19,7 +19,7 @@ import {
             case REQUEST_ERROR:
                 return { ...state, request_error: action.payload }
             case REQUEST_SUCCESS:
-                return { ...state, request_success: action.payload }
+                return { ...state, request_success: action.payload, request_error: null }
            default:
                return state;
        }

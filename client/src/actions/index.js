@@ -42,7 +42,7 @@ export const login = (email, password) => async (dispatch) => {
         }
 
         dispatch({ type: IS_LOADING, payload: false });
-
+        dispatch({type: REQUEST_SUCCESS, payload: true})
         if (response.data.profile !== null && response.data.profile._id) dispatch({ type: REDIRECT_STATUS, payload: '/feed' })
         else dispatch({ type: REDIRECT_STATUS, payload: '/change-profile' })
 
