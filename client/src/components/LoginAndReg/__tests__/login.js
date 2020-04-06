@@ -114,12 +114,12 @@ describe('Login React-Redux Component', () => {
             }
             },
             { type: 'IS_LOADING', payload: false },
-            { type: 'REDIRECT_STATUS', payload: '/change-profile' }
+            { type: 'REDIRECT_STATUS', payload: '/change-profile' },
+            { type: 'REQUEST_SUCCESS', payload: {msg: "Login success!"}}
         ];
 
         // check individual parts of actions
         const actions = store.getActions();
-
         // check first action
         expect(actions[0]).toEqual(expectedActions[0]);
 
@@ -134,6 +134,7 @@ describe('Login React-Redux Component', () => {
         // check last two actions
         expect(actions[2]).toEqual(expectedActions[2]);
         expect(actions[3]).toEqual(expectedActions[3]);
+        expect(actions[4]).toEqual(expectedActions[4]);
     });
 
     // TEST CASE 2: Successful login WITh profile
@@ -209,7 +210,8 @@ describe('Login React-Redux Component', () => {
             }
             },
             { type: 'IS_LOADING', payload: false },
-            { type: 'REDIRECT_STATUS', payload: '/feed' } // redirect to feed instead
+            { type: 'REDIRECT_STATUS', payload: '/feed' }, // redirect to feed instead
+            { type: 'REQUEST_SUCCESS', payload: {msg: "Login success!"}}
         ];
 
         // check individual parts of actions
