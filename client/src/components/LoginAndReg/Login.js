@@ -22,10 +22,6 @@ const Login = (props) => {
       setMsg(request_error.error)
       setError(true);
     }
-    else {
-      setMsg('');
-      setError(false);
-    }
   }, [request_error])
 
   function validateForm (props) {
