@@ -1,6 +1,23 @@
 language: node_js
 node_js: 
   - '13'
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "nhRQh3pPaoXpNRHb5+4nqxYFtEcaxP0lDF5X67T3u5zCwKep4hQIbqCKSprtkvwdPSmPvWntwZIb4jz75jzLnyWAQ3VowJEIFAwL+qHdBMIImJJNsejWyTWfE68muTjVUypsZi+lHR44A6kDNvakp0M+UWyY6DrXAQlX0wqa+/F/0oMuPgshVUvoBrO5lj6wcaERWzbC4CoBDE5dHaanmReM1yCQ1km/a3h9Znoe0ha9oxYBoSk/qsfdux7OnY0pMGyrzJm6fJ4PLVVoCnJJzMf905iZQ0ULBESY7/h18RhLypscTfPFP4tx1SHM2BJTItLZDY0CdGSeD0OfJltSNS0++jJvHCPXDc8yo7f8UUgx1hT3P7RsqTZwhURCEx/fYoIP4pmSKu9FeZ8uwNeirisfdJ5xfXl5RHzg6Es9K5rQokbfeWELanOtMQGx7tFJfHD0Ek6LOokOCgccN7VLB5FVCSBCHm7shjNGDl8w2U5L4U6EX1Z/FVn+2ML6GtZWUjUQOzbysw+GSwBmAXtuc4s+4Rj/1eXlJxS08xaQapR4XeNChhfJIOZmMsGoVWcVTqt0yw+u8G2NE4FHlExGjUS1/em+EuEGE4p8DocMS4PQkKJsNldAT094TDmR237mLFiwbkGMI70HATCDGptOJC6V9/VBPjpQeCFmEyiV+k0="
+
+addons:
+  coverity_scan:
+    project:
+      name: "Intro-to-SE-Spring-2020/Chirpr"
+      description: "Twitter remake attempt using MERN stack."
+    notification_email: justinasmith662@gmail.com
+    build_command_prepend: "cd client/ && npm ci"
+    build_command: "npm run build"
+    branch_pattern: coverity_scan
+
 branches:
   only:
     - "master"
