@@ -24,4 +24,5 @@ branches:
 script:
   - cd client
   - npm ci
+  - npm run build
   - npm run test-coverage
