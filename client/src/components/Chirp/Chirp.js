@@ -84,6 +84,7 @@ const Chirp = (props) => {
                         style={{cursor: 'pointer'}}
                         onClick={() => {
                             props.handleEdit(_id, chirpContent)
+                            controlId="chirpContent"
                             setShowInput(false)
                             setEditing(false)
                         }}

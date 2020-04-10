@@ -20,7 +20,7 @@ afterAll(() => {
         spy = jest.spyOn(mockAxios, "post");
 
         // fake chirp info to send to mocked API request
-        const user = { fakeChirp: 'testChirp', newFakeChirp: 'newTestChirp'};
+        const user = { fakeChirp: 'testChirp'};
         const component = renderWithRedux(<Chirp/>, { initialState: state });
         const {getByTestId, store } = component;
 
@@ -31,7 +31,7 @@ afterAll(() => {
 
         
         // ? Chirp Input Box ?
-        const chirpContent = getByTestIdText("??");
+        const chirpContent = getByTestIdText("chirpContent");
         const changeChirpInput = value =>
             fireEvent.change(chirpContent, {target: {value}});
        // set functions for changing input fields
@@ -121,4 +121,4 @@ afterAll(() => {
 
         
 
-
+})
