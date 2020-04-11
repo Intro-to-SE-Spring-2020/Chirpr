@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
@@ -12,33 +12,32 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 import Navigation from './components/Navigation/Navigation'
 
 // import pages
-import Landing from './pages/Landing/Landing';
-import Feed from './pages/Feed/Feed';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
+import Landing from './pages/Landing/Landing'
+import Feed from './pages/Feed/Feed'
+import ErrorPage from './pages/ErrorPage/ErrorPage'
 import AuthPage from './pages/AuthPage/AuthPage'
 import Profile from './pages/Profile/Profile'
-//import components
+// import components
 import FullPageSpinner from './components/FullPageSpinner/FullPageSpinner.js'
 
 import useStatus from './lib/hooks/useStatus'
 
 function App () {
-  
-  const { network } = useSelector(state => state);
-  const dispatch = useDispatch();
+  const { network } = useSelector(state => state)
+  const dispatch = useDispatch()
 
-  const status = useStatus();
+  const status = useStatus()
 
   if (network.is_loading) {
     return (
-    <>
-      <Navigation status={status} handleLogout={() => dispatch({ type : 'LOGOUT'})} />
-      <FullPageSpinner/>
-    </>
+      <>
+        <Navigation status={status} handleLogout={() => dispatch({ type: 'LOGOUT' })} />
+        <FullPageSpinner/>
+      </>
     )
   } else {
     return (
-    <div data-testid='app' className='App'>
+      <div data-testid='app' className='App'>
         <Navigation status={status} handleLogout={() => dispatch({ type: 'LOGOUT' })} />
         <Switch>
           {/* put exact so that the component is only rendered when http://localhost/ */}
@@ -47,7 +46,7 @@ function App () {
             <Feed/>
           </PrivateRoute>
           <PrivateRoute status={status} path='/change-profile'>
-            <AuthPage path={"/change-profile"}/>
+            <AuthPage path={'/change-profile'}/>
           </PrivateRoute>
           <PrivateRoute status={status} path='/profile'>
             <Profile />

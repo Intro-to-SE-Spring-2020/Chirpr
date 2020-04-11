@@ -16,7 +16,7 @@ const CreateProfile = (props) => {
   const [dob, setDob] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   function validateForm () {
     return (
@@ -30,10 +30,10 @@ const CreateProfile = (props) => {
 
   async function handleSubmit (event) {
     event.preventDefault()
-    dispatch(changeProfile({first_name, last_name, username, bio, dob}));
+    dispatch(changeProfile({ first_name, last_name, username, bio, dob }))
   }
 
-  function renderForm() {
+  function renderForm () {
     return (
       <form className='Name' onSubmit={handleSubmit}>
         <FormGroup controlId="first_name" bsSize="large">

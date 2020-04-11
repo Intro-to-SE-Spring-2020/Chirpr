@@ -4,8 +4,7 @@ import {
   FormGroup,
   FormControl
 } from 'react-bootstrap'
-import { connect } from 'react-redux'
-import { useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import { register } from '../../actions/'
 
@@ -18,14 +17,14 @@ const Registration = (props) => {
   const [password2, setPassword2] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [success, setSuccess] = React.useState(false);
-  const [msg, setMsg] = React.useState('');
-  const { request_error } = useSelector(state => state.network);
+  const [success, setSuccess] = React.useState(false)
+  const [msg, setMsg] = React.useState('')
+  const { request_error } = useSelector(state => state.network)
 
   useEffect(() => {
     if (request_error && request_error.error) {
       setMsg(request_error.error)
-      setError(true);
+      setError(true)
     }
   }, [])
 
@@ -40,7 +39,7 @@ const Registration = (props) => {
   function handleSubmit (event) {
     event.preventDefault()
 
-    props.register(email, password1);
+    props.register(email, password1)
   }
 
   function renderForm () {

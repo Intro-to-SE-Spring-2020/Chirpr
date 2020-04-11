@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FormGroup, FormControl, FormLabel } from 'react-bootstrap'
-import { connect } from 'react-redux'
-import { useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import { login } from '../../actions/'
 
@@ -13,14 +12,14 @@ const Login = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false);
-  const [msg, setMsg] = useState('');
-  const { request_error } = useSelector(state => state.network);
+  const [success, setSuccess] = useState(false)
+  const [msg, setMsg] = useState('')
+  const { request_error } = useSelector(state => state.network)
 
   useEffect(() => {
     if (request_error && request_error.error) {
       setMsg(request_error.error)
-      setError(true);
+      setError(true)
     }
   }, [request_error])
 
@@ -31,9 +30,9 @@ const Login = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    props.login(email, password);
+    props.login(email, password)
   }
-  
+
   return (
     <div className='AuthPage'>
       <form onSubmit={handleSubmit}>
