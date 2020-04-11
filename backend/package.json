@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
+    "eslint-report": "eslint ./ -o ../reports/backend_static_analysis.html --format html",
     "test": "test"
   },
   "repository": {
