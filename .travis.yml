@@ -10,7 +10,6 @@ script:
   - npm ci
   - npm i -g eslint
   - npm run test-coverage
-  - npm run eslint-report
+  - eslint ./src -o ../reports/client_static_analysis.html --format html
   - cd ../backend
-  - npm ci
-  - npm run eslint-report
+  - eslint ./ -o ../reports/backend_static_analysis.html --format html
