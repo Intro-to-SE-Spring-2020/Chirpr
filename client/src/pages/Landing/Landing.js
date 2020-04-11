@@ -4,9 +4,9 @@ import HomepageImage from '../../components/HomepageImage.js'
 
 const styles = {
   header: {
-    backgroundColor: "#282c34",
-    fontSize: "calc(30px + 2vmin)",
-    minHeight: "calc(100vh - 56px)",
+    backgroundColor: '#282c34',
+    fontSize: 'calc(30px + 2vmin)',
+    minHeight: 'calc(100vh - 56px)',
     borderRadius: 0
   }
 }

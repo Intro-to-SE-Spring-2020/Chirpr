@@ -3,9 +3,7 @@ import { Navbar, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const Navigation = (props) => {
-  
   const renderNavigation = (authed) => {
-    
     if (authed === true) {
       return (
         <Navbar bg='dark' variant='dark'>

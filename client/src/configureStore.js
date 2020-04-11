@@ -7,11 +7,11 @@ import checkTokenExpiryMiddleware from './lib/checkTokenExiryMiddleware'
 import reducers from './reducers'
 
 // configureStore.js
- 
+
 const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['auth']
+  key: 'root',
+  storage,
+  whitelist: ['auth']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

@@ -9,18 +9,19 @@ import { createBrowserHistory } from 'history'
 
 import checkTokenExpiryMiddleware from '../checkTokenExiryMiddleware'
 
-const mockStore = (state) => configureStore([checkTokenExpiryMiddleware, thunk])(state);
+const mockStore = (state) => configureStore([checkTokenExpiryMiddleware, thunk])(state)
 
 export function renderWithRedux (
   ui,
-  { initialState = null,
+  {
+    initialState = null,
     store = mockStore(() => initialState !== null ? initialState : (
-      { 
+      {
         auth: {
           token: null,
           expiry: null,
           profile: null,
-          redirect: "/"
+          redirect: '/'
         },
         network: {
           is_loading: false,
@@ -64,12 +65,12 @@ export function renderWithReduxRouter (
   {
     initialState = null,
     store = mockStore(() => initialState !== null ? initialState : (
-      { 
+      {
         auth: {
           token: null,
           expiry: null,
           profile: null,
-          redirect: "/"
+          redirect: '/'
         },
         network: {
           is_loading: false,
