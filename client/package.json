@@ -28,7 +28,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-coverage": "npm test -- --coverage --watchAll=false --coveragePathIgnorePatterns=lib && cat ./coverage/lcov.info | coveralls",
-    "eslint-report": "eslint ./src -o ../reports/client_static_analysis.html --format html",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
