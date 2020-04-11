@@ -8,8 +8,9 @@ branches:
 script:
   - cd client
   - npm ci
-  - npm run eslint-report
+  - npm i -g eslint
   - npm run test-coverage
+  - npm run eslint-report
   - cd ../backend
   - npm ci
   - npm run eslint-report
