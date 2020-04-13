@@ -61,7 +61,7 @@ const Chirp = (props) => {
             setEditing(true)
           }}
         >
-          <Pencil className="text-success" style={{ fontSize: '24px' }}/>
+          <Pencil data-testid="edit-button" className="text-success" style={{ fontSize: '24px' }}/>
         </span>
       )
     } else if (isOwned && isEditing) {
@@ -75,7 +75,7 @@ const Chirp = (props) => {
               setEditing(false)
             }}
           >
-                        Cancel <X className="" style={{ fontSize: '24px' }}/>
+                        Cancel <X data-testid="cancel-button" className="" style={{ fontSize: '24px' }}/>
           </span>
           <span
             className="float-right hover-opacity"
@@ -86,7 +86,7 @@ const Chirp = (props) => {
               setEditing(false)
             }}
           >
-                        Update <CheckCircle className="" style={{ fontSize: '24px' }}/>
+                        Update <CheckCircle data-testid="update-button" className="" style={{ fontSize: '24px' }}/>
           </span>
         </>
       )
@@ -101,7 +101,7 @@ const Chirp = (props) => {
           style={{ cursor: 'pointer' }}
           onClick={() => props.handleDelete(_id)}
         >
-          <XCircle className="text-danger" style={{ fontSize: '24px' }}/>
+          <XCircle data-testid="delete-button" className="text-danger" style={{ fontSize: '24px' }}/>
         </span>
       )
     }
