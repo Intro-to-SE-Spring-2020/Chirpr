@@ -131,7 +131,7 @@ const Chirp = (props) => {
           onClick={() => props.handleLikeOrUnlike(_id)}
           style={{ cursor: 'pointer' }}
           className="text-danger">
-          <HeartFill className="mr-2 text-danger" style={{ fontSize: '24px' }}/>
+          <HeartFill data-testid="like-button" className="mr-2 text-danger" style={{ fontSize: '24px' }}/>
           {likes.length}
         </span>
       )
@@ -142,7 +142,7 @@ const Chirp = (props) => {
           onMouseLeave={() => setLikeHover(false)}
           onClick={() => props.handleLikeOrUnlike(_id)}
           style={{ cursor: 'pointer' }}>
-          <Heart className="mr-2" style={{ fontSize: '24px' }}/>
+          <Heart className="mr-2" data-testid="unlike-button" style={{ fontSize: '24px' }}/>
           {likes.length}
         </span>
       )
