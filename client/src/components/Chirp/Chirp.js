@@ -131,7 +131,7 @@ const Chirp = (props) => {
           onClick={() => props.handleLikeOrUnlike(_id)}
           style={{ cursor: 'pointer' }}
           className="text-danger">
-          <HeartFill className="mr-2 text-danger" style={{ fontSize: '24px' }}/>
+          <HeartFill data-testid="like-button" className="mr-2 text-danger" style={{ fontSize: '24px' }}/>
           {likes.length}
         </span>
       )
@@ -142,7 +142,7 @@ const Chirp = (props) => {
           onMouseLeave={() => setLikeHover(false)}
           onClick={() => props.handleLikeOrUnlike(_id)}
           style={{ cursor: 'pointer' }}>
-          <Heart className="mr-2" style={{ fontSize: '24px' }}/>
+          <Heart className="mr-2" data-testid="unlike-button" style={{ fontSize: '24px' }}/>
           {likes.length}
         </span>
       )
@@ -158,7 +158,7 @@ const Chirp = (props) => {
           onClick={() => props.handleReChirp(_id)}
           style={{ cursor: 'pointer' }}
           className="ml-4 text-success">
-          <ArrowRepeat className="text-success mr-2" style={{ fontSize: '24px' }}/>
+          <ArrowRepeat className="text-success mr-2" data-testid="rechirp-button" style={{ fontSize: '24px' }}/>
           {retweets.length > 0 ? retweets.length : ''}
         </span>
       )
@@ -170,7 +170,7 @@ const Chirp = (props) => {
           onClick={() => props.handleReChirp(_id)}
           style={{ cursor: 'pointer' }}
           className="ml-4">
-          <ArrowRepeat className="mr-2" style={{ fontSize: '24px' }}/>
+          <ArrowRepeat className="mr-2" data-testid="unchirp-button" style={{ fontSize: '24px' }}/>
           {retweets.length > 0 ? retweets.length : ''}
         </span>
       )
