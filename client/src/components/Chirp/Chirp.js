@@ -158,7 +158,7 @@ const Chirp = (props) => {
           onClick={() => props.handleReChirp(_id)}
           style={{ cursor: 'pointer' }}
           className="ml-4 text-success">
-          <ArrowRepeat className="text-success mr-2" style={{ fontSize: '24px' }}/>
+          <ArrowRepeat className="text-success mr-2" data-testid="rechirp-button" style={{ fontSize: '24px' }}/>
           {retweets.length > 0 ? retweets.length : ''}
         </span>
       )
@@ -170,7 +170,7 @@ const Chirp = (props) => {
           onClick={() => props.handleReChirp(_id)}
           style={{ cursor: 'pointer' }}
           className="ml-4">
-          <ArrowRepeat className="mr-2" style={{ fontSize: '24px' }}/>
+          <ArrowRepeat className="mr-2" data-testid="unchirp-button" style={{ fontSize: '24px' }}/>
           {retweets.length > 0 ? retweets.length : ''}
         </span>
       )
