@@ -54,6 +54,7 @@ const Chirp = (props) => {
     if (isOwned && !isEditing) {
       return (
         <span
+          data-testid="edit-button"
           className="float-right"
           style={{ cursor: 'pointer' }}
           onClick={() => {
@@ -75,7 +76,7 @@ const Chirp = (props) => {
               setEditing(false)
             }}
           >
-                        Cancel <X className="" style={{ fontSize: '24px' }}/>
+                        Cancel <X data-testid="cancel-button" className="" style={{ fontSize: '24px' }}/>
           </span>
           <span
             className="float-right hover-opacity"
@@ -86,7 +87,7 @@ const Chirp = (props) => {
               setEditing(false)
             }}
           >
-                        Update <CheckCircle className="" style={{ fontSize: '24px' }}/>
+                        Update <CheckCircle data-testid="update-button" className="" style={{ fontSize: '24px' }}/>
           </span>
         </>
       )
@@ -101,7 +102,7 @@ const Chirp = (props) => {
           style={{ cursor: 'pointer' }}
           onClick={() => props.handleDelete(_id)}
         >
-          <XCircle className="text-danger" style={{ fontSize: '24px' }}/>
+          <XCircle data-testid="delete-button" className="text-danger" style={{ fontSize: '24px' }}/>
         </span>
       )
     }
@@ -111,6 +112,7 @@ const Chirp = (props) => {
     if (showInput) {
       return (
         <FormControl
+          data-testid="chirp-update-input"
           as="textarea"
           placeholder="Chirp cannot be empty!"
           value={chirpContent}
