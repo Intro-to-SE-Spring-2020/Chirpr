@@ -54,6 +54,7 @@ const Chirp = (props) => {
     if (isOwned && !isEditing) {
       return (
         <span
+          data-testid="edit-button"
           className="float-right"
           style={{ cursor: 'pointer' }}
           onClick={() => {
@@ -61,7 +62,7 @@ const Chirp = (props) => {
             setEditing(true)
           }}
         >
-          <Pencil data-testid="edit-button" className="text-success" style={{ fontSize: '24px' }}/>
+          <Pencil className="text-success" style={{ fontSize: '24px' }}/>
         </span>
       )
     } else if (isOwned && isEditing) {
@@ -111,6 +112,7 @@ const Chirp = (props) => {
     if (showInput) {
       return (
         <FormControl
+          data-testid="chirp-update-input"
           as="textarea"
           placeholder="Chirp cannot be empty!"
           value={chirpContent}
