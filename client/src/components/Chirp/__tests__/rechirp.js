@@ -27,14 +27,13 @@ describe('Chirp React-Redux Component', () => {
         // destructure attributes from component
         const { getByTestId, store  } = component
         const unChirpButton = getByTestId('unchirp-button')
-        //const clickLike = () => fireEvent.click(unChirpButton)
         return {
           ...component,
           store, // mocked redux store
           unChirpButton, // submit button on form
-          //clickLike // handler for submit button click
         }
       }
+
     const reChirpSetup = (state = null) => {
         
         const data = { name:'Keith', username:'@Rwkeith', content:'TEST TWEET', likes:10, retweets:3, time:'', isOwned:true, isLiked:false, isReChirped:true, _id:1 }
