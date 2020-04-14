@@ -28,9 +28,11 @@ const ChirpInputForm = (props) => {
                 className="input"
                 onChange={e => props.setChirpData(e.target.value)}
                 value={props.chirpData}
+                data-testid="chirp-input"
+
               />
             </OverlayTrigger>
-            <Button onClick={props.shareChirp} className="button" variant="primary">Share</Button>
+            <Button onClick={props.shareChirp} data-testid="share-chirp-button" className="button" variant="primary">Share</Button>
           </div>
         </Card.Body>
       </Card>
