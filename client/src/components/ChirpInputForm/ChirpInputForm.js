@@ -24,11 +24,11 @@ const ChirpInputForm = (props) => {
               }
             >
               <FormControl
+                data-testid="chirp-input"
                 placeholder="Say something..."
                 className="input"
                 onChange={e => props.setChirpData(e.target.value)}
                 value={props.chirpData}
-                data-testid="chirp-input"
 
               />
             </OverlayTrigger>

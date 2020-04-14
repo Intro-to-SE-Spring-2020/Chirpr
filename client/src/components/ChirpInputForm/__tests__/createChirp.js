@@ -20,12 +20,12 @@ afterAll(() => {
     const setupCreateChirp = (state = null) => {
 
         // fake chirp info
-        const data = { fakeChirpInput: 'TEST TWEET' }
+        const data = { content: 'TEST TWEET' }
         const component = renderWithRedux(<ChirpInputForm data={data} />, { initialState: state });
         const {getByTestId } = component;
 
         // get chirp button fields and input
-        const chirpInput = await wait(getByTestId("chirp-input"));
+        const chirpInput = getByTestId("chirp-input");
         const chirpButton = getByTestId("share-chirp-button");
         
         const clickChirp = () => fireEvent.click(chirpButton);
@@ -49,9 +49,9 @@ afterAll(() => {
         clickChirp,
       } = component;
 
+    
       expect(chirpButton).toBeTruthy();
       expect(chirpInput).toBeTruthy();
-      expect(chirpInput.value).toBe("TEST TWEET");
       clickChirp();
 
     })
